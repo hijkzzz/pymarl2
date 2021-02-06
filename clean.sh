@@ -7,5 +7,4 @@ pkill Main_Thread
 
 if [ "$1" = "all" ]; then
     rm -rf results/sacred
-    git pull
 fi
