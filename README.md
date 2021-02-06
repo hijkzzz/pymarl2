@@ -37,7 +37,7 @@ This will download SC2 into the 3rdparty folder and copy the maps necessary to r
 ## Run an experiment 
 
 ```shell
-python3 src/main.py --config=qmix8 --env-config=sc2 with env_args.map_name=MMM2
+python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=corridor
 ```
 
 The config files act as defaults for an algorithm or environment. 
@@ -49,7 +49,7 @@ They are all located in `src/config`.
 ## Run parallel experiments:
 ```shell
 # bash run.sh config_name map_name_list (threads_num arg_list gpu_list experinments_num)
-bash run.sh qmix8 6h_vs_8z 2 epsilon_anneal_time=500000 0,1 5
+bash run.sh qmix corridor 2 epsilon_anneal_time=500000 0,1 5
 ```
 
 `xxx_list` is separated by `,`.
