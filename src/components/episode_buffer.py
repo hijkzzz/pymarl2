@@ -252,20 +252,6 @@ class ReplayBuffer(EpisodeBatch):
             # Return the latest
             return self[self.buffer_index - batch_size : self.buffer_index]
 
-    def sample_deacy(self, batch_size, runner_size):
-        assert self.can_sample(batch_size)
-        time_diff = np.zeros(batch_size)
-        if self.episodes_in_buffer == batch_size:
-            return self[:batch_size], th.from_numpy(time_diff)
-        else:
-            # Uniform sampling only atm
-            ep_ids = np.random.choice(self.episodes_in_buffer, batch_size, replace=False)
-            time_diff = np.where(ep_ids < self.buffer_index,
-                            (self.buffer_index - ep_ids - 1) // runner_size,
-                            (self.episodes_in_buffer - ep_ids + self.buffer_index) // runner_size
-                        )
-            return self[ep_ids], th.from_numpy(time_diff)
-
     def __repr__(self):
         return "ReplayBuffer. {}/{} episodes. Keys:{} Groups:{}".format(self.episodes_in_buffer,
                                                                         self.buffer_size,
