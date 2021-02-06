@@ -1,0 +1,16 @@
+
+env: one_step_matrix_game
+
+test_greedy: True
+test_nepisode: 1
+test_interval: 1000
+log_interval: 1000
+runner_log_interval: 1000
+learner_log_interval: 1000
+t_max: 50000
+
+obs_last_action: False
+
+env_args:
+  map_name: one_step_matrix_game
+

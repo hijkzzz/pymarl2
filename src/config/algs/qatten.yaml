@@ -1,0 +1,41 @@
+# --- QMIX specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 100000
+
+runner: "parallel"
+batch_size_run: 8
+buffer_size: 5000
+batch_size: 128
+
+t_max: 10050000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+mac: "n_mac"
+agent: "n_rnn"
+
+# use the Q_Learner to train
+agent_output_type: "q"
+learner: "nq_learner"
+mixer: "qatten"
+td_lambda: 0.6
+lr: 0.001
+optimizer: 'adam'
+
+n_query_embedding_layer1: 64
+n_query_embedding_layer2: 32
+n_key_embedding_layer1: 32
+n_head_embedding_layer1: 64
+n_head_embedding_layer2: 4
+n_attention_head: 4
+n_constrant_value: 32
+type: "weighted"
+agent_own_state_size: True
+
+name: "qatten_env=8_adam_td_lambda"

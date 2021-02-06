@@ -1,0 +1,33 @@
+# --- CENTRALV specific parameters ---
+
+action_selector: "multinomial"
+epsilon_start: .0
+epsilon_finish: .0
+epsilon_anneal_time: 100000
+mask_before_softmax: True
+
+runner: "parallel"
+
+buffer_size: 128
+batch_size_run: 8
+batch_size: 128
+mac: 'basic_mac'
+agent: 'rnn'
+t_max: 10050000
+
+obs_agent_id: True
+
+lr: 0.001
+critic_coef: 1
+entropy: 0.005
+gae_lambda: 0.95
+mini_epochs: 1
+eps_clip: 0.2
+lr_threshold:
+save_probs: True
+grad_norm_clip: 1
+
+agent_output_type: "pi_logits"
+learner: "ppo_learner"
+
+name: "ppo_env=8_adam_gae"
