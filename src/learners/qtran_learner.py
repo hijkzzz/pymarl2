@@ -24,7 +24,7 @@ class QLearner:
         self.params += list(self.mixer.parameters())
         self.target_mixer = copy.deepcopy(self.mixer)
 
-        self.optimiser = RMSprop(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
+        self.optimiser = Adam(params=self.params, lr=args.lr)
 
         # a little wasteful to deepcopy (e.g. duplicates action selector), but should work for any MAC
         self.target_mac = copy.deepcopy(mac)

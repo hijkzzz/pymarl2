@@ -4,11 +4,13 @@
 action_selector: "epsilon_greedy"
 epsilon_start: 1.0
 epsilon_finish: 0.05
-epsilon_anneal_time: 50000
+epsilon_anneal_time: 100000
 
-runner: "episode"
-
+runner: "parallel"
+batch_size_run: 8
 buffer_size: 5000
+batch_size: 128
+optimizer: 'adam'
 
 # update the target network every {} episodes
 target_update_interval: 200
@@ -26,4 +28,4 @@ nopt_min_loss: 0.1
 
 network_size: small
 
-name: "qtran"
+name: "qtran_env=8_adam"
