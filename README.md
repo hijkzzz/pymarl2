@@ -70,3 +70,6 @@ All results will be stored in the `Results` folder and named with `map_name`.
 bash clean.sh
 ```
 
+## Some test results on Super Hard scenarios
+![](img/baselines2.png)
+
