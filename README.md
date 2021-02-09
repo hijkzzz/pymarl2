@@ -1,5 +1,5 @@
 # MARL Tricks
-Our code for [Hyperparameter Tricks in Multi-Agent Reinforcement Learning:An Empirical Study](). We implemented and standardized the hyperparameters of the SOTA MARL algorithms.
+Our code for [Hyperparameter Tricks in Multi-Agent Reinforcement Learning:An Empirical Study](https://arxiv.org/abs/2102.03479). We implemented and standardized the hyperparameters of the SOTA MARL algorithms.
 
 ## Python MARL framework
 
