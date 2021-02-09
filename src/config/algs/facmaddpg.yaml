@@ -29,7 +29,7 @@ hypernet_embed: 64
 
 lr: 0.001 # Learning rate for agents
 critic_lr: 0.001
-lambd: 0.6
+lambd: 0.5
 entropy_coef: 0.05
 optimizer: 'adam'
 
