@@ -6,6 +6,8 @@ function onCtrlC () {
   for pid in $(jobs -p); do
     kill -9 $pid
   done
+  
+  kill -HUP $( ps -A -ostat,ppid | grep -e '^[Zz]' | awk '{print $2}')
   exit 1
 }
 
