@@ -9,12 +9,12 @@ mask_before_softmax: True
 runner: "parallel"
 mac: 'lica_mac'
 
-buffer_size: 16
-batch_size_run: 16
-batch_size: 16
-t_max: 20050000
+buffer_size: 128
+batch_size_run: 8
+batch_size: 32
+t_max: 10050000
 
-td_lambda: 0.8
+td_lambda: 0.6
 
 # update the target network every {} training steps
 target_update_interval: 200
@@ -22,12 +22,13 @@ target_update_interval: 200
 # use lica
 agent_output_type: "pi_logits"
 learner: "lica_learner"
-lica_mixing_embed_dim: 64
+lica_mixing_embed_dim: 32
 hypernet_layers: 2
+hypernet_embed_dim: 64
 critics_update_num: 1
 entropy_coef: 0.06 # 0.03 for 3s5z_vs_3s6z, 0.06 for all others
 lr: 0.0025
 critic_lr: 0.0005
 critic: 'lica'
 
-name: "lica_env=16_adam_td_lambda"
+name: "lica_env=8_adam_td_lambda"

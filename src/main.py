@@ -13,6 +13,7 @@ import yaml
 
 from run import run as default_run
 from dop_run import run as dop_run
+from on_off_run import run as on_off_run
 
 SETTINGS['CAPTURE_MODE'] = "fd" # set to "no" if you want to see stdout/stderr in console
 logger = get_logger()
@@ -35,8 +36,8 @@ def my_main(_run, _config, _log):
     # run the framework
     if config['run'] == "dop":
         dop_run(_run, config, _log)
-    elif config['run'] == "decay":
-        decay_run(_run, config, _log)
+    elif config['run'] == "on_off":
+        on_off_run(_run, config, _log)
     else: # default
         default_run(_run, config, _log)
 

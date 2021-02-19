@@ -30,4 +30,4 @@ grad_norm_clip: 1
 agent_output_type: "pi_logits"
 learner: "ppo_learner"
 
-name: "ppo_env=8_adam_gae"
+name: "ppo_env=8_adam_gae" # no value clip init ....

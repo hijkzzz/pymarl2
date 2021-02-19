@@ -14,7 +14,7 @@ class FMACCritic(nn.Module):
         self.input_shape = self._get_input_shape(scheme)
         self.output_type = "q"
         self.hidden_states = None
-        self.critic_hidden_dim = args.rnn_hidden_dim * 2
+        self.critic_hidden_dim = args.critic_hidden_dim 
 
         # Set up network layers
         self.fc1 = nn.Linear(self.input_shape + self.n_actions, self.critic_hidden_dim)
@@ -49,7 +49,7 @@ class FMACCritic(nn.Module):
 
     def _get_input_shape(self, scheme):
         input_shape = scheme["obs"]["vshape"]
-        # input_shape = scheme["state"]["vshape"]
+        # input_shape += scheme["state"]["vshape"]
         if self.args.obs_agent_id:
             input_shape += self.n_agents
 

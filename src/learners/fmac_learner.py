@@ -8,6 +8,8 @@ from modules.mixers.vdn import VDNMixer
 from modules.mixers.qmix import QMixer
 from components.action_selectors import categorical_entropy
 from utils.rl_utils import build_td_lambda_targets
+from components.epsilon_schedules import DecayThenFlatSchedule
+from utils.th_utils import get_parameters_num
 
 
 class FMACLearner:
@@ -36,6 +38,9 @@ class FMACLearner:
             self.critic_params += list(self.mixer.parameters())
             self.target_mixer = copy.deepcopy(self.mixer)
 
+        print('Mixer Size: ')
+        print(get_parameters_num(self.critic_params))
+
         if getattr(self.args, "optimizer", "rmsprop") == "rmsprop":
             self.agent_optimiser = RMSprop(params=self.agent_params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
         elif getattr(self.args, "optimizer", "rmsprop") == "adam":
@@ -53,7 +58,7 @@ class FMACLearner:
         self.log_stats_t = -self.args.learner_log_interval - 1
         self.last_target_update_episode = 0
 
-    def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
+    def train(self, batch: EpisodeBatch, t_env: int, episode_num: int, off=False):
         # Get the relevant data
         rewards = batch["reward"][:, :-1]
         actions = batch["actions"][:, :-1]
@@ -68,8 +73,9 @@ class FMACLearner:
             q1, _ = self.target_critic(batch,  batch["actions_onehot"].detach())
             target_vals = self.target_mixer(q1, batch["state"])
             
+            lambd = 0 if off else self.args.lambd
             target_vals = build_td_lambda_targets(rewards, 
-                    terminated, mask, target_vals, self.n_agents, self.args.gamma, self.args.lambd)
+                    terminated, mask, target_vals, self.n_agents, self.args.gamma, lambd)
 
         # Train the critic
         # Current Q network forward
@@ -83,26 +89,27 @@ class FMACLearner:
         self.critic_optimiser.step()
 
         # Train the actor
-        pi = []
-        self.mac.init_hidden(batch.batch_size)
-        for t in range(batch.max_seq_length-1):
-            agent_outs = self.mac.forward(batch, t=t)
-            pi.append(agent_outs)
-        pi = th.stack(pi, dim=1)  # Concat over time b, t, a, probs
+        if not off:
+            pi = []
+            self.mac.init_hidden(batch.batch_size)
+            for t in range(batch.max_seq_length-1):
+                agent_outs = self.mac.forward(batch, t=t)
+                pi.append(agent_outs)
+            pi = th.stack(pi, dim=1)  # Concat over time b, t, a, probs
 
-        q1, _ = self.critic(batch[:,:-1], pi)
-        q = self.mixer(q1, batch["state"][:, :-1])
-        pg_loss = -(q * mask).sum() / mask.sum() 
+            q1, _ = self.critic(batch[:,:-1], pi)
+            q = self.mixer(q1, batch["state"][:, :-1])
+            pg_loss = -(q * mask).sum() / mask.sum() 
 
-        entropy_loss = categorical_entropy(pi).mean(-1, keepdim=True) # mean over agents
-        entropy_loss[mask == 0] = 0 # fill nan
-        entropy_loss = (entropy_loss* mask).sum() / mask.sum()
-        loss = pg_loss - self.args.entropy_coef * entropy_loss / entropy_loss.item()
+            entropy_loss = categorical_entropy(pi).mean(-1, keepdim=True) # mean over agents
+            entropy_loss[mask == 0] = 0 # fill nan
+            entropy_loss = (entropy_loss* mask).sum() / mask.sum()
+            loss = pg_loss - self.args.entropy_coef * entropy_loss / entropy_loss.item()
 
-        self.agent_optimiser.zero_grad()
-        loss.backward()
-        agent_grad_norm = th.nn.utils.clip_grad_norm_(self.agent_params, self.args.grad_norm_clip)
-        self.agent_optimiser.step()
+            self.agent_optimiser.zero_grad()
+            loss.backward()
+            agent_grad_norm = th.nn.utils.clip_grad_norm_(self.agent_params, self.args.grad_norm_clip)
+            self.agent_optimiser.step()
 
         # target_update
         if (episode_num - self.last_target_update_episode) / self.args.target_update_interval >= 1.0:
@@ -115,12 +122,13 @@ class FMACLearner:
             self.logger.log_stat("critic_grad_norm", critic_grad_norm.item(), t_env)
             self.logger.log_stat("target_vals", (target_vals * mask).sum().item() / mask.sum().item(), t_env)
 
-            self.logger.log_stat("pg_loss", pg_loss.item(), t_env)
-            self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
-            self.logger.log_stat("agent_grad_norm", agent_grad_norm.item(), t_env)
-            agent_mask = mask.repeat(1, 1, self.n_agents)
-            self.logger.log_stat("pi_max", (pi.max(dim=-1)[0] * agent_mask).sum().item() / agent_mask.sum().item(), t_env)
-            self.log_stats_t = t_env
+            if not off:
+                self.logger.log_stat("pg_loss", pg_loss.item(), t_env)
+                self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
+                self.logger.log_stat("agent_grad_norm", agent_grad_norm.item(), t_env)
+                agent_mask = mask.repeat(1, 1, self.n_agents)
+                self.logger.log_stat("pi_max", (pi.max(dim=-1)[0] * agent_mask).sum().item() / agent_mask.sum().item(), t_env)
+                self.log_stats_t = t_env
 
     def _update_targets(self):
         self.target_mac.load_state(self.mac)
@@ -129,7 +137,7 @@ class FMACLearner:
         if self.mixer is not None:
             self.target_mixer.load_state_dict(self.mixer.state_dict())
 
-        self.logger.console_logger.info("Updated all target networks")
+        # self.logger.console_logger.info("Updated all target networks")
 
     def cuda(self, device="cuda"):
         self.mac.cuda()

@@ -17,11 +17,11 @@ class LICACritic(nn.Module):
         # Set up network layers
         self.state_dim = int(np.prod(args.state_shape))
         self.weight_dim = args.lica_mixing_embed_dim * self.n_agents * self.n_actions
-        self.hid_dim = args.lica_mixing_embed_dim * 2
+        self.hid_dim = args.hypernet_embed_dim
 
-        self.hyper_w_1 = nn.Sequential(nn.Linear(self.state_dim, 512),
+        self.hyper_w_1 = nn.Sequential(nn.Linear(self.state_dim, self.hid_dim),
                                         nn.ReLU(),
-                                        nn.Linear(512, self.weight_dim))
+                                        nn.Linear(self.hid_dim , self.weight_dim))
         self.hyper_w_final = nn.Sequential(nn.Linear(self.state_dim, self.hid_dim),
                                         nn.ReLU(),
                                         nn.Linear(self.hid_dim, args.lica_mixing_embed_dim))
