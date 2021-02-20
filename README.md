@@ -1,5 +1,5 @@
 # MARL Tricks
-Our codes for [Implementation Tricks in Multi-Agent Reinforcement Learning:An Empirical Study](https://arxiv.org/abs/2102.03479). We implemented and standardized the hyperparameters of the SOTA MARL algorithms.
+Our codes for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). We implemented and standardized the hyperparameters of the SOTA MARL algorithms.
 
 ## Python MARL framework
 
@@ -23,7 +23,7 @@ Actor Critic Methods:
 - [**FacMADDPG**: Deep Multi-Agent Reinforcement Learning for Decentralized Continuous Cooperative Control](https://arxiv.org/abs/2003.06709)
 - [**LICA**: Learning Implicit Credit Assignment for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2007.02529)
 - [**DOP**: Off-Policy Multi-Agent Decomposed Policy Gradients](https://arxiv.org/abs/2007.12322)
-- [**Phasic-QMIX**: Implementation Tricks in Multi-Agent Reinforcement Learning:An Empirical Study](https://arxiv.org/abs/2102.03479)
+- [**RIIT**: RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479)
 
 PyMARL is written in PyTorch and uses [SMAC](https://github.com/oxwhirl/smac) as its environment.
 
