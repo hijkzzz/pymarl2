@@ -24,7 +24,7 @@ class NQLearner:
         if args.mixer == "qatten":
             self.mixer = QattenMixer(args)
         elif args.mixer == "vdn":
-            self.mixer = VDNMixer(args)
+            self.mixer = VDNMixer()
         elif args.mixer == "qmix":
             self.mixer = Mixer(args)
         else:
