@@ -27,7 +27,7 @@ mixer: "qmix"
 mixing_embed_dim: 32
 hypernet_embed: 64
 lr: 0.001 # Learning rate for agents
-td_lambda: 0.6 # or 0.5
+td_lambda: 0.6 # 0.5 is better
 optimizer: 'adam'
 q_lambda: False
 
