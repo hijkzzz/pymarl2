@@ -8,7 +8,7 @@ epsilon_anneal_time: 100000
 
 runner: "parallel"
 batch_size_run: 8
-buffer_size: 5000
+buffer_size: 5000 # 10000 is fine
 batch_size: 128
 optimizer: 'adam'
 
@@ -27,7 +27,7 @@ mixer: "vdn"
 mixing_embed_dim: 32
 hypernet_embed: 64
 lr: 0.001 # Learning rate for agents
-td_lambda: 0.6
+td_lambda: 0.6 # 0.5 is better
 optimizer: 'adam'
 q_lambda: False
 
