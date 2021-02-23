@@ -8,9 +8,9 @@ mask_before_softmax: False
 
 runner: "parallel"
 
-buffer_size: 16
+buffer_size: 128
 batch_size_run: 8
-batch_size: 16
+batch_size: 32
 t_max: 10050000
 
 env_args:
@@ -21,7 +21,7 @@ target_update_interval: 200
 
 lr: 0.0005
 critic_lr: 0.0005
-td_lambda: 0.8
+td_lambda: 0.6
 
 # use COMA
 agent_output_type: "pi_logits"
