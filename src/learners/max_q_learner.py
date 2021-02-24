@@ -63,7 +63,7 @@ class MAXQLearner:
         self.target_central_mixer = copy.deepcopy(self.central_mixer)
 
         print('Mixer Size: ')
-        print(get_parameters_num(list(self.mixer.parameters())))
+        print(get_parameters_num(list(self.mixer.parameters()) + list(self.central_mixer.parameters())))
 
         self.optimiser = RMSprop(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
 
