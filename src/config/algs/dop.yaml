@@ -23,7 +23,7 @@ target_update_interval: 600
 step: 5 #steps for tree back up diagram  (adjustable based on # of agents)
 
 
-ent_coef: 0.001
+ent_coef: 0.0005
 lr: 0.0005
 critic_lr: 0.0001
 td_lambda: 0.8
