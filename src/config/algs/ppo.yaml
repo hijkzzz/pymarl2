@@ -10,7 +10,7 @@ runner: "parallel"
 
 buffer_size: 128
 batch_size_run: 8
-batch_size: 128
+batch_size: 32
 mac: 'basic_mac'
 agent: 'rnn'
 t_max: 10050000
