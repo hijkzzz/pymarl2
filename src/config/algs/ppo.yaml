@@ -10,18 +10,18 @@ runner: "parallel"
 
 buffer_size: 128
 batch_size_run: 8
-batch_size: 128
+batch_size: 32
 mac: 'basic_mac'
 agent: 'rnn'
 t_max: 10050000
 
 obs_agent_id: True
 
-lr: 0.001
+lr: 0.0002
 critic_coef: 1
-entropy: 0.005
+entropy: 0.01
 gae_lambda: 0.95
-mini_epochs: 1
+mini_epochs: 4
 eps_clip: 0.2
 lr_threshold:
 save_probs: True
