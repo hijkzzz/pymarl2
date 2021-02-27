@@ -11,9 +11,7 @@ import torch as th
 from utils.logging import get_logger
 import yaml
 
-from run import run as default_run
-from dop_run import run as dop_run
-from on_off_run import run as on_off_run
+from run import REGISTRY as run_REGISTRY
 
 SETTINGS['CAPTURE_MODE'] = "fd" # set to "no" if you want to see stdout/stderr in console
 logger = get_logger()
@@ -33,14 +31,8 @@ def my_main(_run, _config, _log):
     th.manual_seed(config["seed"])
     config['env_args']['seed'] = config["seed"]
     
-    # run the framework
-    if config['run'] == "dop":
-        dop_run(_run, config, _log)
-    elif config['run'] == "on_off":
-        on_off_run(_run, config, _log)
-    else: # default
-        default_run(_run, config, _log)
-
+    # run
+    run_REGISTRY[_config['run']](_run, config, _log)
 
 def _get_config(params, arg_name, subfolder):
     config_name = None
