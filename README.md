@@ -74,3 +74,15 @@ bash clean.sh
 ## Some test results on Super Hard scenarios
 ![](img/baselines2.png)
 
+## Cite
+```
+@article{hu2021riit,
+      title={RIIT: Rethinking the Importance of Implementation Tricks in Multi-Agent Reinforcement Learning}, 
+      author={Jian Hu and Haibin Wu and Seth Austin Harding and Siyang Jiang and Shih-wei Liao},
+      year={2021},
+      eprint={2102.03479},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+```
+
