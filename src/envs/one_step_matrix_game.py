@@ -3,10 +3,14 @@ from utils.dict2namedtuple import convert
 import numpy as np
 import torch as th
 
+# this non-monotonic matrix can be solved by qmix
+payoff_values = [[12, -0.1, -0.1],
+                    [-0.1, 0, 0],
+                    [-0.1, 0, 0]]
 
-payoff_values = [[8, -12, -12],
-                    [-12, 0, 0],
-                    [-12, 0, 0]]
+# payoff_values = [[12, -12, -12],
+#                     [-12, 0, 0],
+#                     [-12, 0, 0]]
 
 # payoff_values = [[12, 0, 10],
 #                     [0, 0, 10],

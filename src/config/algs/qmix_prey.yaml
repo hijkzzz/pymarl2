@@ -4,15 +4,15 @@
 action_selector: "epsilon_greedy"
 epsilon_start: 1.0
 epsilon_finish: 0.05
-epsilon_anneal_time: 100000 # 50000 for 6h_vs_8z
+epsilon_anneal_time: 100000
 
 runner: "parallel"
-batch_size_run: 8 # 4 for 3s5z_vs_3s6z, buffer size = 2500
-buffer_size: 5000 
+batch_size_run: 8
+buffer_size: 1000 
 batch_size: 128
 optimizer: 'adam'
 
-t_max: 10050000
+t_max: 1050000
 
 # update the target network every {} episodes
 target_update_interval: 200
@@ -27,7 +27,7 @@ mixer: "qmix"
 mixing_embed_dim: 32
 hypernet_embed: 64
 lr: 0.001 # Learning rate for agents
-td_lambda: 0.6 # 0.3 for 6h_vs_8z
+td_lambda: 0.5
 optimizer: 'adam'
 q_lambda: False
 

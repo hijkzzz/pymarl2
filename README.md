@@ -45,7 +45,13 @@ This will download SC2 into the 3rdparty folder and copy the maps necessary to r
 ## Run an experiment 
 
 ```shell
+# For SMAC
 python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=corridor
+```
+
+```shell
+# For Cooperative Predator-Prey
+python3 src/main.py --config=qmix_prey --env-config=stag_hunt with env_args.map_name=stag_hunt
 ```
 
 The config files act as defaults for an algorithm or environment. 
