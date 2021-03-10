@@ -43,4 +43,4 @@ q_nstep: 0  # 0 corresponds to default Q, 1 is r + gamma*Q, etc
 
 name: "dop_env=8_adam_tb+td_lambda"
 
-run: "dop"
+run: "dop_run"
