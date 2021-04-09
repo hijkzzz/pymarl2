@@ -1,5 +1,5 @@
-# MARL Tricks
-Our codes for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). We implemented and standardized the hyperparameters of the SOTA MARL algorithms.
+# RIIT
+Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). We implement and standardize the hyperparameters of numerous QMIX variant algorithms that achieve SOTA.
 
 ## Python MARL framework
 
@@ -70,7 +70,7 @@ bash run.sh qmix corridor 2 epsilon_anneal_time=500000 0,1 5
 
 All results will be stored in the `Results` folder and named with `map_name`.
 
-## Force all processes to exit
+## Force all trainning processes to exit
 
 ```shell
 # all python and game processes of current user will quit.
