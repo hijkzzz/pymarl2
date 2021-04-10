@@ -83,7 +83,7 @@ class COMALearner:
 
         # Optimise agents
         self.agent_optimiser.zero_grad()
-        loss = coma_loss + self.args.entropy * entropy_loss
+        loss = coma_loss - self.args.entropy * entropy_loss
         loss.backward()
         grad_norm = th.nn.utils.clip_grad_norm_(self.agent_params, self.args.grad_norm_clip)
         self.agent_optimiser.step()
