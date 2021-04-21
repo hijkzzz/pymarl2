@@ -84,7 +84,7 @@ bash clean.sh
 ```
 @article{hu2021riit,
       title={RIIT: Rethinking the Importance of Implementation Tricks in Multi-Agent Reinforcement Learning}, 
-      author={Jian Hu and Haibin Wu and Seth Austin Harding and Siyang Jiang and Shih-wei Liao},
+      author={Jian Hu and Siyang Jiang and Seth Austin Harding and Haibin Wu and Shih-wei Liao},
       year={2021},
       eprint={2102.03479},
       archivePrefix={arXiv},
