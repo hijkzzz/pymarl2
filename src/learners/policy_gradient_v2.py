@@ -5,7 +5,7 @@ from modules.mixers.qmix import QMixer
 from utils.rl_utils import build_td_lambda_targets
 from components.action_selectors import categorical_entropy
 import torch as th
-from torch.optim import Adam
+from torch.optim import Adam, RMSprop
 
 """
 IAC and VDNs, this class should use ppo agents and ppo mac
@@ -36,7 +36,10 @@ class PGLearner_v2:
                 raise ValueError("Mixer {} not recognised.".format(args.mixer))
             self.params += list(self.mixer.parameters())
 
-        self.optimiser = Adam(params=self.params, lr=args.lr)
+        if self.args.optim == 'adam':
+            self.optimiser = Adam(params=self.params, lr=args.lr)
+        else:
+            self.optimiser = RMSprop(params=self.params, lr=args.lr)
 
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
         # Get the relevant quantities
@@ -57,6 +60,7 @@ class PGLearner_v2:
 
         pg_loss = - ((advantages.detach() * log_pi_taken) * mask).sum() / mask.sum()
         vf_loss = ((td_error ** 2) * mask).sum() / mask.sum()
+        entropy[mask == 0] = 0
         entropy_loss = (entropy * mask).sum() / mask.sum()
 
         coma_loss = pg_loss + self.args.vf_coef * vf_loss
@@ -78,6 +82,7 @@ class PGLearner_v2:
             self.logger.log_stat("pg_loss", - ((advantages.detach() * log_pi_taken) * mask).sum().item() / mask.sum().item(), t_env)
             self.logger.log_stat("advantage_mean", (advantages * mask).sum().item() / mask.sum().item(), t_env)
             self.logger.log_stat("coma_loss", coma_loss.item(), t_env)
+            self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
             self.logger.log_stat("agent_grad_norm", grad_norm, t_env)
             # self.logger.log_stat("pi_max", (pi.max(dim=1)[0] * mask).sum().item() / mask.sum().item(), t_env)
             self.log_stats_t = t_env

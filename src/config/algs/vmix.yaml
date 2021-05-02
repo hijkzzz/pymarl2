@@ -2,15 +2,15 @@
 
 action_selector: "multinomial"
 epsilon_start: .5
-epsilon_finish: .01
+epsilon_finish: .0
 epsilon_anneal_time: 100000
-mask_before_softmax: False
+mask_before_softmax: True
 
 runner: "parallel"
 
-buffer_size: 128
+buffer_size: 8
 batch_size_run: 8
-batch_size: 32
+batch_size: 8
 t_max: 10050000
 
 env_args:
@@ -19,9 +19,9 @@ env_args:
 # update the target network every {} training steps
 target_update_interval: 200
 
-lr: 0.0005
-critic_lr: 0.0005
-td_lambda: 0.6
+lr: 0.001
+critic_lr: 0.001
+td_lambda: 0.8
 
 # use COMA
 agent_output_type: "pi_logits"
@@ -29,16 +29,16 @@ learner: "policy_gradient_v2"
 mixer: "qmix"
 q_nstep: 0  # 0 corresponds to default Q, 1 is r + gamma*Q, etc
 lam: 0.95
-ent_coef:
+ent_coef: 0.005
 vf_coef: 0.1
 mixing_embed_dim: 32
 hypernet_layers: 2
 hypernet_embed: 64
-
-
+abs: False
+optim: rmsprop
 
 # agent
 mac: "ppo_mac"
 agent: "rnn_ppo"
 
-name: "vmix_env=8_adam_td_lambda"
+name: "vmix_env=8_rmsprop_td_lambda"
