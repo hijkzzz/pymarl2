@@ -4,7 +4,7 @@
 action_selector: "epsilon_greedy"
 epsilon_start: 1.0
 epsilon_finish: 0.05
-epsilon_anneal_time: 100000 # 50000 for 6h_vs_8z
+epsilon_anneal_time: 100000 # 500000 for 6h_vs_8z
 
 runner: "parallel"
 batch_size_run: 8 # 4 for 3s5z_vs_3s6z, buffer size = 2500
