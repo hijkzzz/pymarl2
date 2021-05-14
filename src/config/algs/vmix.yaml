@@ -29,16 +29,16 @@ learner: "policy_gradient_v2"
 mixer: "qmix"
 q_nstep: 0  # 0 corresponds to default Q, 1 is r + gamma*Q, etc
 lam: 0.95
-ent_coef: 0.005
+ent_coef: 0.01 # 0.005 for 3s5z_vs_3s6z, 0.02 for 3s_vs_5z
 vf_coef: 0.1
 mixing_embed_dim: 32
 hypernet_layers: 2
 hypernet_embed: 64
-abs: True
+abs: False
 optim: rmsprop
 
 # agent
 mac: "ppo_mac"
 agent: "rnn_ppo"
 
-name: "vmix_env=8_rmsprop_td_lambda"
+name: "vmix_env=8_adam_td_lambda"
