@@ -41,7 +41,7 @@ Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SM
 ## Our Benchmarks
 Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. 
 
-| Algo.     | Type |  MNS |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
+| Algo.     | Type |  Mixing-net Size |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
 | OurQMIX   |  VB  |  41K | **90%** |  **75%** | **100%** |      84%     | **100%** | **40** |
 | OurVDNs   |  VB  |  0K  | **90%** |      43%      |      98%      | **87%** |      96%      |      39     |
