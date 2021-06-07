@@ -12,7 +12,7 @@ There are so many tricks in the RL, such as:
 - Observation Normalization
 - Gradient Clipping
 - **Large Batch Size**
-- **N-step Returns(including GAE and Q($\lambda$))**
+- **N-step Returns(including GAE($\lambda$) and Q($\lambda$))**
 - **Rollout Process Number**
 - **$\epsilon$-greedy annealing steps**
 - Death Agent Masking
@@ -39,7 +39,7 @@ Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SM
 
 
 ## Our Benchmarks
-Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieve the SOTA.
+Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. Our goal is for the MARL community to be able to compare algorithms fairly, rather than adding Tricks.
 
 | Algo.     | Type |  MNS |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
