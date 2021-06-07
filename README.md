@@ -1,5 +1,5 @@
 # RIIT
-Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). 
+Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms, rather than gaining an advantage through tricks.
 
 ## Tricks in Multi-agent Reinforcement Learning
 There are so many tricks in the RL, such as:
@@ -17,7 +17,7 @@ There are so many tricks in the RL, such as:
 - **$\epsilon$-greedy annealing steps**
 - Death Agent Masking
 
-**Reference**
+**References**
 - Implementation Matters in Deep RL: A Case Study on PPO and TRPO
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
@@ -39,7 +39,7 @@ Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SM
 
 
 ## Our Benchmarks
-Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. Our goal is for the MARL community to be able to compare algorithms fairly, rather than adding Tricks.
+Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. 
 
 | Algo.     | Type |  MNS |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
@@ -91,7 +91,7 @@ bash install_sc2.sh
 
 This will download SC2 into the 3rdparty folder and copy the maps necessary to run over.
 
-### Command Tools
+### Command Line Tool
 
 **Run an experiment**
 
