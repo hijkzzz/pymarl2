@@ -17,6 +17,10 @@ There are so many tricks in the RL, such as:
 - **$\epsilon$-greedy annealing steps**
 - Death Agent Masking
 
+**Reference**
+- Implementation Matters in Deep RL: A Case Study on PPO and TRPO
+- The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
+
 ### Our QMIX
 Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SMAC's tasks. 
 
