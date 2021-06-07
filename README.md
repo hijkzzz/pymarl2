@@ -4,6 +4,7 @@ Our open-source code for [RIIT: Rethinking the Importance of Implementation Tric
 ## Tricks in Multi-agent Reinforcement Learning
 There are so many tricks in the RL, such as:
 - Value function clipping (clip max Q values for QMIX)
+- Value Normalization
 - Reward scaling
 - Orthogonal initialization and layer scaling
 - **Adam** 
