@@ -28,6 +28,12 @@ Using just a few tricks of them (Bold texts), we enabled QMIX to solve almost al
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               OurQMIX              |
 |----------------|:----------:|:--------------:|:----------------------------------:|
+| 8m    |    Easy    |      -      |           **100\%**          |
+| 2c_vs_1sc     |    Easy    |      -      |          **100\%**          |
+| 2s3z |    Easy    |-|          **100\%**          |
+| 1c3s5z   |    Easy    |-|          **100\%**          |
+| 3s5z       |  Easy |      -      |          **100\%**          |
+| 8m_vs_9m           |  Easy |      -      |          **100\%**          |
 | 5m_vs_6m     |    Hard    |      84%      |           **90\%**          |
 | 3s_vs_5z     |    Hard    |      96%      |          **100\%**          |
 | bane_vs_bane |    Hard    |**100\%**|          **100\%**          |
