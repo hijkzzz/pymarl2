@@ -1,5 +1,5 @@
 # RIIT
-Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms, rather than gaining an advantage through tricks.
+Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
 
 ## Tricks in Multi-agent Reinforcement Learning
 There are so many tricks in the RL, such as:
@@ -23,10 +23,10 @@ There are so many tricks in the RL, such as:
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
 ### Our QMIX
-Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SMAC's tasks. 
+Using just a few tricks of them (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios. 
 
 
-| Senarios       | Difficulty |      QMIX      |               OurQMIX              |
+| Senarios       | Difficulty |      QMIX (batch_size=128)      |               OurQMIX              |
 |----------------|:----------:|:--------------:|:----------------------------------:|
 | 5m_vs_6m     |    Hard    |      84%      |           **90\%**          |
 | 3s_vs_5z     |    Hard    |      96%      |          **100\%**          |
@@ -42,16 +42,16 @@ Using just a few of them (Bold texts), we enabled QMIX to solve almost all of SM
 ## Our Benchmarks
 Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. 
 
-| Algo.     | Type |  Mixing-net Size |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
+| Algo.     | Type |  3s_vs_5z |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
-| OurQMIX   |  VB  |  41K | **90%** |  **75%** | **100%** |      84%     | **100%** | **40** |
-| OurVDNs   |  VB  |  0K  | **90%** |      43%      |      98%      | **87%** |      96%      |      39     |
-| OurQatten |  VB  |  58K | **90%** |      62%      | **100%** |      68%     | **100%** |      -      |
-| OurQPLEX  |  VB  | 152K | **90%** |      68%      |      96%      |      78%     | **100%** |      39     |
-| OurWQMIX  |  VB  | 247K | **90%** |       6%      |      96%      |      78%     |      23%      |      39     |
-| OurLICA   |  PG  | 208K |      53%     |       0%      |       0%      |      4%      |       0%      |      30     |
-| OurDOP    |  PG  | 122K |      9%      |       0%      |       0%      |      1%      |       0%      |      32     |
-| RIIT      |  PG  |  69K |      67%     |  **75%** | **100%** |      19%     | **100**% |      38     |
+| OurQMIX   |  VB  |  **100%** | **90%** |  **75%** | **100%** |      84%     | **100%** | **40** |
+| OurVDNs   |  VB  |  **100%**  | **90%** |      43%      |      98%      | **87%** |      96%      |      39     |
+| OurQatten |  VB  |  **100%** | **90%** |      62%      | **100%** |      68%     | **100%** |      -      |
+| OurQPLEX  |  VB  | **100%** | **90%** |      68%      |      96%      |      78%     | **100%** |      39     |
+| OurWQMIX  |  VB  | **100%** | **90%** |       6%      |      96%      |      78%     |      23%      |      39     |
+| OurLICA   |  PG  | 3% |      53%     |       0%      |       0%      |      4%      |       0%      |      30     |
+| OurDOP    |  PG  | 0% |      9%      |       0%      |       0%      |      1%      |       0%      |      32     |
+| RIIT      |  PG  | 96% |      67%     |  **75%** | **100%** |      19%     | **100**% |      38     |
 
 
 ## PyMARL
