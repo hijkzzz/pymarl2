@@ -23,7 +23,7 @@ There are so many tricks in the RL, such as:
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
 ### Our QMIX
-Using just a few tricks of them (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios. 
+Using just a few tricks of them (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios. Details in the paper.
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               OurQMIX              |
@@ -46,7 +46,7 @@ Using just a few tricks of them (Bold texts), we enabled QMIX to solve almost al
 
 
 ## Our Benchmarks
-Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA. 
+Afterwards, we finetune and standardize the hyperparameters of numerous QMIX variants, and find that QMIX achieves the SOTA.  Details in the paper.
 
 | Algo.     | Type |  3s_vs_5z |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
