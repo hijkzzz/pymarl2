@@ -1,5 +1,5 @@
 # RIIT
-Our open-source code for [RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
+Our open-source code for [Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
 
 ## Tricks in Multi-agent Reinforcement Learning
 There are so many tricks in the RL, such as:
@@ -81,7 +81,7 @@ Actor Critic Methods:
 - [**FacMADDPG**: Deep Multi-Agent Reinforcement Learning for Decentralized Continuous Cooperative Control](https://arxiv.org/abs/2003.06709)
 - [**LICA**: Learning Implicit Credit Assignment for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2007.02529)
 - [**DOP**: Off-Policy Multi-Agent Decomposed Policy Gradients](https://arxiv.org/abs/2007.12322)
-- [**RIIT**: RIIT: Rethinking the Importance of Implementation Tricks in Multi-AgentReinforcement Learning](https://arxiv.org/abs/2102.03479)
+- [**RIIT**: Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479)
 
 ### Installation instructions
 
@@ -138,8 +138,8 @@ bash clean.sh
 
 ## Cite
 ```
-@article{hu2021riit,
-      title={RIIT: Rethinking the Importance of Implementation Tricks in Multi-Agent Reinforcement Learning}, 
+@article{hu2021rethinking,
+      title={Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
       author={Jian Hu and Siyang Jiang and Seth Austin Harding and Haibin Wu and Shih-wei Liao},
       year={2021},
       eprint={2102.03479},
