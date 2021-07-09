@@ -1,8 +1,8 @@
 # RIIT
 Open-source code for [Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
 
-## Tricks in Multi-agent Reinforcement Learning
-There are so many tricks in the RL, such as:
+## Code-level Optimizations
+There are so many code-level tricks in the  Multi-agent Reinforcement Learning (MARL), such as:
 - Value function clipping (clip max Q values for QMIX)
 - Value Normalization
 - Reward scaling
@@ -18,12 +18,13 @@ There are so many tricks in the RL, such as:
 - **$\epsilon$-greedy annealing steps**
 - Death Agent Masking
 
-**References**
+**Related Works**
 - Implementation Matters in Deep RL: A Case Study on PPO and TRPO
+- What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
-### Our QMIX
-Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios. Details in the paper.
+### Finetuned-QMIX
+Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios.
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               OurQMIX              |
@@ -33,7 +34,7 @@ Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of
 | 2s3z |    Easy    |-|          **100\%**          |
 | 1c3s5z   |    Easy    |-|          **100\%**          |
 | 3s5z       |  Easy |      -      |          **100\%**          |
-| 8m_vs_9m           |  Hard |      98%      |          **100\%**          |
+| 8m_vs_9m           |  Hard |      84%      |          **100\%**          |
 | 5m_vs_6m     |    Hard    |      84%      |           **90\%**          |
 | 3s_vs_5z     |    Hard    |      96%      |          **100\%**          |
 | bane_vs_bane |    Hard    |**100\%**|          **100\%**          |
@@ -45,8 +46,8 @@ Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of
 | 6h_vs_8z     | Super Hard |       0%      |  **93\%**($\lambda$ = 0.3)  |
 
 
-## Our Benchmarks
-Afterwards, we finetune and normalized the tricks of numerous QMIX variants, and find that QMIX achieves the SOTA.  Details in the paper.
+## Re-Evaluation
+Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA. 
 
 | Algo.     | Type |  3s_vs_5z |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
 |-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
