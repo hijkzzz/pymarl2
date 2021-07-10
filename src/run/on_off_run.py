@@ -176,7 +176,7 @@ def run_sequential(args, logger):
         on_buffer.insert_episode_batch(episode_batch)
         off_buffer.insert_episode_batch(episode_batch)
 
-        if off_buffer.can_sample(args.off_buffer_size):
+        if off_buffer.can_sample(args.buffer_size):
             # off samples
             episode_sample = off_buffer.uni_sample(args.off_batch_size)
             max_ep_t = episode_sample.max_t_filled()
