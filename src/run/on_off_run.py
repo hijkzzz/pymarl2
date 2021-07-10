@@ -176,7 +176,7 @@ def run_sequential(args, logger):
         on_buffer.insert_episode_batch(episode_batch)
         off_buffer.insert_episode_batch(episode_batch)
 
-        if off_buffer.can_sample(args.off_batch_size):
+        if off_buffer.can_sample(args.off_buffer_size):
             # off samples
             episode_sample = off_buffer.uni_sample(args.off_batch_size)
             max_ep_t = episode_sample.max_t_filled()
@@ -184,7 +184,7 @@ def run_sequential(args, logger):
             learner.train(episode_sample, runner.t_env, episode, off=True)
             del episode_sample
 
-        if on_buffer.can_sample(args.batch_size):
+        if on_buffer.can_sample(args.buffer_size):
             # on samples
             episode_sample = on_buffer.sample_latest(args.batch_size)
             max_ep_t = episode_sample.max_t_filled()
