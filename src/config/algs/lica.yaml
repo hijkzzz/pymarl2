@@ -22,7 +22,7 @@ target_update_interval: 200
 # use lica
 agent_output_type: "pi_logits"
 learner: "lica_learner"
-lica_mixing_embed_dim: 32
+lica_mixing_embed_dim: 64
 hypernet_layers: 2
 hypernet_embed_dim: 64
 critics_update_num: 1
