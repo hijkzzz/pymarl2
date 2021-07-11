@@ -24,10 +24,10 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
 ### Finetuned-QMIX
-Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios.
+Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios (finetuned QMIX for each scenarios).
 
 
-| Senarios       | Difficulty |      QMIX (batch_size=128)      |               OurQMIX              |
+| Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
 |----------------|:----------:|:--------------:|:----------------------------------:|
 | 8m    |    Easy    |      -      |           **100\%**          |
 | 2c_vs_1sc     |    Easy    |      -      |          **100\%**          |
@@ -49,16 +49,20 @@ Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of
 ## Re-Evaluation
 Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA. 
 
-| Algo.     | Type |  3s_vs_5z |   5m_vs_6m  | 3s5z_vs_3s6z |    corridor    |   6h_vs_8z  |      MMM2      |      Predator-Prey     |
-|-----------|:----:|:----:|:-------------:|:--------------:|:--------------:|:-------------:|:--------------:|:-----------:|
-| OurQMIX   |  VB  |  **100%** | **90%** |  **75%** | **100%** |      84%     | **100%** | **40** |
-| OurVDNs   |  VB  |  **100%**  | **90%** |      43%      |      98%      | **87%** |      96%      |      39     |
-| OurQatten |  VB  |  **100%** | **90%** |      62%      | **100%** |      68%     | **100%** |      -      |
-| OurQPLEX  |  VB  | **100%** | **90%** |      68%      |      96%      |      78%     | **100%** |      39     |
-| OurWQMIX  |  VB  | **100%** | **90%** |       6%      |      96%      |      78%     |      23%      |      39     |
-| OurLICA   |  PG  | 3% |      53%     |       0%      |       0%      |      4%      |       0%      |      30     |
-| OurDOP    |  PG  | 0% |      9%      |       0%      |       0%      |      1%      |       0%      |      32     |
-| RIIT      |  PG  | 96% |      67%     |  **75%** | **100%** |      19%     | **100**% |      38     |
+| Scenarios      | Difficulty     |   Value-based  |                |                 |                |                |  Policy-based  |        |                |
+|----------------|----------------|:--------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|:------:|:--------------:|
+|                |                | QMIX           |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |   DOP  |       RIIT      |
+| 2c\_vs\_64zg   | Hard           | **100\%** | **100\%** |  **100\%** | **100**\% |      93\%      | **100**\% |  56\%  | **100**\% |
+| 8m\_vs\_9m     | Hard           | **100\%** | **100\%** |  **100\%** |      95\%      |      90\%      |      48\%      |  18\%  |      95\%      |
+| 3s\_vs\_5z     | Hard           | **100\%** | **100\%** | **100** \% | **100**\% | **100**\% |       3\%      |   0\%  |      96\%      |
+| 5m\_vs\_6m     | Hard           | **90\%**  |  **90\%** |  **90\%**  |  **90\%** |  **90\%** |      53\%      |   9\%  |      67\%      |
+| 3s5z\_vs\_3s6z | Super-Hard         | **75\%**  |      43\%      |       62\%      |      68\%      |       6\%      |       0\%      |   0\%  |  **75\%** |
+| corridor       | Super-Hard         | **100\%** |      98\%      |  **100\%** |      96\%      |      96\%      |       0\%      |   0\%  | **100\%** |
+| 6h\_vs\_8z     | Super-Hard         | 84\%           |  **87\%** |       82\%      |      78\%      |      78\%      |       4\%      |   1\%  |      19\%      |
+| MMM2           | Super-Hard        | **100\%** |      96\%      |  **100\%** | **100\%** |      23\%      |       0\%      |   0\%  | **100**\% |
+| 27m\_vs\_30m   | Super-Hard         | **100\%** | **100\%** |  **100\%** | **100\%** |       0\%      |       9\%      |   0\%  |      93\%      |
+| Discrete PP    | -              | **40**    |       39       |        -        |       39       |       39       |       30       |   32   |       38       |
+| Avg. Score     | Hard+ | **94.9\%**         | 91.2\%         | 92.7\%          | 92.5\%         | 67.4\%         | 29.2\%         | 14.0\% | 84.0\%         |
 
 
 ## PyMARL
@@ -92,12 +96,12 @@ Install Python packages
 bash install_dependecies.sh
 ```
 
-Set up StarCraft II and SMAC:
+Set up StarCraft II (2.4.10) and SMAC:
 ```shell
 bash install_sc2.sh
 ```
 
-This will download SC2 into the 3rdparty folder and copy the maps necessary to run over.
+This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
 
 ### Command Line Tool
 
