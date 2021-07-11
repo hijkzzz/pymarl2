@@ -61,7 +61,7 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 | 6h\_vs\_8z     | Super-Hard         | 84\%           |  **87\%** |       82\%      |      78\%      |      78\%      |       4\%      |   1\%  |      19\%      |
 | MMM2           | Super-Hard        | **100\%** |      96\%      |  **100\%** | **100\%** |      23\%      |       0\%      |   0\%  | **100**\% |
 | 27m\_vs\_30m   | Super-Hard         | **100\%** | **100\%** |  **100\%** | **100\%** |       0\%      |       9\%      |   0\%  |      93\%      |
-| Discrete PP    | -              | **40**    |       39       |        -        |       39       |       39       |       30       |   32   |       38       |
+| Discrete Predator-Prey    | -              | **40**    |       39       |        -        |       39       |       39       |       30       |   32   |       38       |
 | Avg. Score     | Hard+ | **94.9\%**         | 91.2\%         | 92.7\%          | 92.5\%         | 67.4\%         | 29.2\%         | 14.0\% | 84.0\%         |
 
 
