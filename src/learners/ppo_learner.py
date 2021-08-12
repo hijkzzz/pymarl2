@@ -40,21 +40,23 @@ class PPOLearner:
         old_logprob = th.log(th.gather(old_probs, dim=3, index=actions)).detach()
         mask_agent = mask.unsqueeze(2).repeat(1, 1, self.n_agents, 1)
         
+        # targets and advantages
+        values = self.critic(batch)
+        advantages, targets = build_gae_targets(
+            rewards, mask, values, self.args.gamma, self.args.gae_lambda)
+        
+        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+        advantages = advantages.unsqueeze(2).repeat(1, 1, self.n_agents, 1)
+        
         for _ in range(self.args.mini_epochs):
             # Critic
             values = self.critic(batch)
-            advantages, targets = build_gae_targets(
-                rewards, mask, values, self.args.gamma, self.args.gae_lambda)
-
             # 0-out the targets that came from padded data
             td_error = (values[:, :-1] - targets.detach())
             masked_td_error = td_error * mask
             critic_loss = 0.5 * (masked_td_error ** 2).sum() / mask.sum()
 
             # Actor
-            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-            advantages = advantages.unsqueeze(2).repeat(1, 1, self.n_agents, 1)
-            
             pi = []
             self.mac.init_hidden(batch.batch_size)
             for t in range(batch.max_seq_length-1):
