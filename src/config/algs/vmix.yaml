@@ -34,7 +34,7 @@ vf_coef: 0.1
 mixing_embed_dim: 32
 hypernet_layers: 2
 hypernet_embed: 64
-abs: False
+abs: True
 optim: rmsprop
 
 # agent
