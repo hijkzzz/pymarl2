@@ -112,7 +112,7 @@ python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=corrid
 
 ```shell
 # For Cooperative Predator-Prey
-python3 src/main.py --config=qmix_prey --env-config=stag_hunt with env_args.map_name=stag_hunt
+python3 src/main.py --config=qmix_predator_prey --env-config=stag_hunt with env_args.map_name=stag_hunt
 ```
 
 The config files act as defaults for an algorithm or environment. 
