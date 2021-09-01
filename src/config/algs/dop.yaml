@@ -1,4 +1,4 @@
-# --- COMA specific parameters ---
+# --- DOP specific parameters ---
 
 action_selector: "multinomial"
 epsilon_start: .0

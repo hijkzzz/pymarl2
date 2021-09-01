@@ -1,4 +1,4 @@
-# --- COMA specific parameters ---
+# --- VMIX specific parameters ---
 
 action_selector: "multinomial"
 epsilon_start: .5

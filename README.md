@@ -1,5 +1,5 @@
-# RIIT
-Open-source code for [Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
+# RMC
+Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
 
 ## Code-level Optimizations
 There are so many code-level tricks in the  Multi-agent Reinforcement Learning (MARL), such as:
@@ -51,7 +51,7 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 
 | Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
 |----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
-|                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RIIT      |
+|                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RMC      |
 | 2c_vs_64zg   | Hard           |  **100%** | **100%** |  **100%** | **100%** |      93%      | **100%** |  98%  |  56%  | **100%** |
 | 8m_vs_9m     | Hard           |  **100%** | **100%** |  **100%** |      95%      |      90%      |      48%      |  75%  |  18%  |      95%      |
 | 3s_vs_5z     | Hard           |  **100%** | **100%** | **100%** | **100%** | **100%** |       3%      |  96%  |   0%  |      96%      |
@@ -82,10 +82,9 @@ Actor Critic Methods:
 
 - [**COMA**: Counterfactual Multi-Agent Policy Gradients](https://arxiv.org/abs/1705.08926)
 - [**VMIX**: Value-Decomposition Multi-Agent Actor-Critics](https://arxiv.org/abs/2007.12306)
-- [**FacMADDPG**: Deep Multi-Agent Reinforcement Learning for Decentralized Continuous Cooperative Control](https://arxiv.org/abs/2003.06709)
 - [**LICA**: Learning Implicit Credit Assignment for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2007.02529)
 - [**DOP**: Off-Policy Multi-Agent Decomposed Policy Gradients](https://arxiv.org/abs/2007.12322)
-- [**RIIT**: Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479)
+- [**RMC**: Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479)
 
 ### Installation instructions
 

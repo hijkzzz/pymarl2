@@ -1,4 +1,4 @@
-# --- COMA specific parameters ---
+# --- LICA specific parameters ---
 
 action_selector: "gumbel"
 epsilon_start: .0

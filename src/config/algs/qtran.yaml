@@ -1,4 +1,4 @@
-# --- QMIX specific parameters ---
+# --- QTRAN specific parameters ---
 
 # use epsilon greedy action selector
 action_selector: "epsilon_greedy"
