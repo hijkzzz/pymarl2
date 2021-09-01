@@ -141,8 +141,8 @@ bash clean.sh
 
 ## Cite
 ```
-@article{hu2021rethinking,
-      title={Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
+@article{hu2021revisiting,
+      title={Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
       author={Jian Hu and Siyang Jiang and Seth Austin Harding and Haibin Wu and Shih-wei Liao},
       year={2021},
       eprint={2102.03479},
