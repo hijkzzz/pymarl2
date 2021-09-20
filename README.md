@@ -1,5 +1,5 @@
 # RMC
-Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). Our goal is to call for a fair comparison of the performance of MARL algorithms.
+Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). 
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
 
