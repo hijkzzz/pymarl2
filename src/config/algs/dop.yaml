@@ -1,12 +1,13 @@
-# --- DOP specific parameters ---
+# --- COMA specific parameters ---
 
 action_selector: "multinomial"
-epsilon_start: .0
-epsilon_finish: .0
-epsilon_anneal_time: 100000
+epsilon_start: .5
+epsilon_finish: .05
+epsilon_anneal_time: 500000
 mask_before_softmax: False
 
 runner: "parallel"
+mac: "dop_mac"
 
 buffer_size: 64
 off_buffer_size: 5000 # size of the off-policy buffer
@@ -23,7 +24,7 @@ target_update_interval: 600
 step: 5 #steps for tree back up diagram  (adjustable based on # of agents)
 
 
-ent_coef: 0.0005
+ent_coef: 0
 lr: 0.0005
 critic_lr: 0.0001
 td_lambda: 0.8
@@ -40,7 +41,8 @@ critic_baseline_fn: "coma"
 critic_train_mode: "seq"
 critic_train_reps: 1
 q_nstep: 0  # 0 corresponds to default Q, 1 is r + gamma*Q, etc
+grad_norm_clip: 20
 
-name: "dop_env=8_adam_tb+td_lambda"
+name: "dop_env=8_rmsprop_tb+td_lambda"
 
 run: "dop_run"

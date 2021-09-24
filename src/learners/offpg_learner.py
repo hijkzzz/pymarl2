@@ -34,10 +34,9 @@ class OffPGLearner:
         self.params = self.agent_params + self.critic_params
         self.c_params = self.critic_params + self.mixer_params
 
-        self.agent_optimiser =  Adam(params=self.agent_params, lr=args.lr)
-        self.critic_optimiser =  Adam(params=self.critic_params, lr=args.lr)
-        self.mixer_optimiser =  Adam(params=self.mixer_params, lr=args.lr)
-
+        self.agent_optimiser =  RMSprop(params=self.agent_params, lr=args.lr)
+        self.critic_optimiser =  RMSprop(params=self.critic_params, lr=args.lr)
+        self.mixer_optimiser =  RMSprop(params=self.mixer_params, lr=args.lr)
 
         print('Mixer Size: ')
         print(get_parameters_num(list(self.c_params)))
@@ -86,11 +85,12 @@ class OffPGLearner:
 
         coma_loss = - ((coe * advantages.detach() * log_pi_taken) * mask).sum() / mask.sum()
         
-        dist_entropy = Categorical(pi).entropy().view(-1)
-        dist_entropy[mask == 0] = 0 # fill nan
-        entropy_loss = (dist_entropy * mask).sum() / mask.sum()
-
-        loss = coma_loss - self.args.ent_coef * entropy_loss / entropy_loss.item()
+        # dist_entropy = Categorical(pi).entropy().view(-1)
+        # dist_entropy[mask == 0] = 0 # fill nan
+        # entropy_loss = (dist_entropy * mask).sum() / mask.sum()
+ 
+        # loss = coma_loss - self.args.ent_coef * entropy_loss / entropy_loss.item()
+        loss = coma_loss
 
         # Optimise agents
         self.agent_optimiser.zero_grad()
@@ -111,7 +111,7 @@ class OffPGLearner:
             self.logger.log_stat("q_max_first", log["q_max_first"], t_env)
             self.logger.log_stat("q_min_first", log["q_min_first"], t_env)
             #self.logger.log_stat("advantage_mean", (advantages * mask).sum().item() / mask.sum().item(), t_env)
-            self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
+            # self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
             self.logger.log_stat("coma_loss", coma_loss.item(), t_env)
             self.logger.log_stat("agent_grad_norm", grad_norm, t_env)
             self.logger.log_stat("pi_max", (pi.max(dim=1)[0] * mask).sum().item() / mask.sum().item(), t_env)

@@ -7,6 +7,7 @@ from .conv_controller import ConvMAC
 from .basic_central_controller import CentralBasicMAC
 from .lica_controller import LICAMAC
 from .cqmix_controller import CQMixMAC
+from .dop_controller import DOPMAC
 
 REGISTRY["basic_mac"] = BasicMAC
 REGISTRY["n_mac"] = NMAC
@@ -15,3 +16,4 @@ REGISTRY["conv_mac"] = ConvMAC
 REGISTRY["basic_central_mac"] = CentralBasicMAC
 REGISTRY["lica_mac"] = LICAMAC
 REGISTRY["cqmix_mac"] = CQMixMAC
+REGISTRY["dop_mac"] = DOPMAC
