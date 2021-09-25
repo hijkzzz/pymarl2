@@ -4,7 +4,7 @@ from modules.critics.centralv import CentralVCritic
 from components.action_selectors import categorical_entropy
 from utils.rl_utils import build_gae_targets
 import torch as th
-from torch.optim import Adam, AdamW
+from torch.optim import Adam
 
 
 class PPOLearner:
@@ -85,21 +85,6 @@ class PPOLearner:
             grad_norm = th.nn.utils.clip_grad_norm_(self.params, self.args.grad_norm_clip)
             self.optimiser.step()
             
-            # Dynamic LR
-            if self.args.lr_threshold:
-                with th.no_grad():
-                    kl_dist = 0.5 * ((old_logprob - log_pi_taken) ** 2)
-                    kl_dist = (kl_dist * mask).sum() / mask.sum()
-                    kl_dist = kl_dist.item()
-                    
-                    if kl_dist > (2.0 * self.args.lr_threshold):
-                        self.last_lr = max(self.last_lr / 1.5, 1e-6)
-                    if kl_dist < (0.5 * self.args.lr_threshold):
-                        self.last_lr = min(self.last_lr * 1.5, 1e-2)
-                            
-                    for param_group in self.optimiser.param_groups:
-                        param_group['lr'] = self.last_lr
-                        
 
         if t_env - self.log_stats_t >= self.args.learner_log_interval:
             self.logger.log_stat("advantage_mean", (advantages * mask_agent).sum().item() / mask_agent.sum().item(), t_env)

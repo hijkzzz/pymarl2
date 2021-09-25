@@ -89,6 +89,7 @@ def run_sequential(args, logger):
     args.n_agents = env_info["n_agents"]
     args.n_actions = env_info["n_actions"]
     args.state_shape = env_info["state_shape"]
+    args.accumulated_episodes = getattr(args, "accumulated_episodes", None)
 
     if getattr(args, 'agent_own_state_size', False):
         args.agent_own_state_size = get_agent_own_state_size(args.env_args)
@@ -178,6 +179,10 @@ def run_sequential(args, logger):
             buffer.insert_episode_batch(episode_batch)
 
         if buffer.can_sample(args.batch_size):
+            next_episode = episode + args.batch_size_run
+            if args.accumulated_episodes and next_episode % args.accumulated_episodes != 0:
+                continue
+
             episode_sample = buffer.sample(args.batch_size)
 
             # Truncate batch to only filled timesteps
