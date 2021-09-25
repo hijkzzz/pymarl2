@@ -27,7 +27,7 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
 ### Finetuned-QMIX
-Using a few of tricks above (Bold texts), we enabled QMIX to solve almost all of SMAC's scenarios (finetuned QMIX for each scenarios).
+Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (fine-tuned QMIX for each scenarios).
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
@@ -55,17 +55,17 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 | Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
 |----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
 |                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RMC      |
-| 2c_vs_64zg   | Hard           |  **100%** | **100%** |  **100%** | **100%** |      93%      | **100%** |  98%  |  56%  | **100%** |
-| 8m_vs_9m     | Hard           |  **100%** | **100%** |  **100%** |      95%      |      90%      |      48%      |  75%  |  18%  |      95%      |
-| 3s_vs_5z     | Hard           |  **100%** | **100%** | **100%** | **100%** | **100%** |       3%      |  96%  |   0%  |      96%      |
-| 5m_vs_6m     | Hard           |  **90%**  |  **90%** |  **90%**  |  **90%** |  **90%** |      53%      |   9%  |   9%  |      67%      |
+| 2c_vs_64zg   | Hard           |  **100%** | **100%** |  **100%** | **100%** |      93%      | **100%** |  98%  |  59%  | **100%** |
+| 8m_vs_9m     | Hard           |  **100%** | **100%** |  **100%** |      95%      |      90%      |      48%      |  75%  |  96%  |      95%      |
+| 3s_vs_5z     | Hard           |  **100%** | **100%** | **100%** | **100%** | **100%** |       3%      |  96%  |   **100%**  |      96%      |
+| 5m_vs_6m     | Hard           |  **90%**  |  **90%** |  **90%**  |  **90%** |  **90%** |      53%      |   9%  |   67%  |      67%      |
 | 3s5z_vs_3s6z | S-Hard         |  **75%**  |      43%      |       62%      |      68%      |       6%      |       0%      |  56%  |   0%  |  **75%** |
 | corridor       | S-Hard         |  **100%** |      98%      |  **100%** |      96%      |      96%      |       0%      |   0%  |   0%  | **100%** |
-| 6h_vs_8z     | S-Hard         |       84%      |  **87%** |       82%      |      78%      |      78%      |       4%      |  80%  |   1%  |      19%      |
-| MMM2           | S-Hard         |  **100%** |      96%      |  **100%** | **100%** |      23%      |       0%      |  70%  |   0%  | **100%** |
+| 6h_vs_8z     | S-Hard         |       84%      |  **87%** |       82%      |      78%      |      78%      |       4%      |  80%  |   0%  |      19%      |
+| MMM2           | S-Hard         |  **100%** |      96%      |  **100%** | **100%** |      23%      |       0%      |  70%  |   3%  | **100%** |
 | 27m_vs_30m   | S-Hard         |  **100%** | **100%** |  **100%** | **100%** |       0%      |       9%      |  93%  |   0%  |      93%      |
 | Discrete PP    | -              |   **40**   |       39       |        -        |       39       |       39       |       30       |   39   |   32   |       38       |
-| Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     67.4%     |     29.2%     | 67.4% | 14.0% |     84.0%     |
+| Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     67.4%     |     29.2%     | 67.4% | 42.0% |     84.0%     |
 
 ## PyMARL
 
@@ -114,7 +114,7 @@ python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=corrid
 ```
 
 ```shell
-# For Cooperative Predator-Prey
+# For Difficulty-Enhanced Predator-Prey
 python3 src/main.py --config=qmix_predator_prey --env-config=stag_hunt with env_args.map_name=stag_hunt
 ```
 
