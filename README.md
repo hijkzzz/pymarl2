@@ -1,8 +1,10 @@
 
 # RMC
-Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). 
+Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479).
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
+
+**StarCraft 2 version: SC2.4.10.**
 
 ```
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
@@ -29,7 +31,7 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
-Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters for each scenarios). (StarCraft 2 version: SC2.4.10)
+Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters **for each scenarios**).
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
@@ -52,7 +54,7 @@ Using a few of tricks above (bold texts), we enabled QMIX to solve almost all ha
 
 
 ## Re-Evaluation
-Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA (StarCraft 2 version: SC2.4.10). 
+Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA. 
 
 | Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
 |----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
@@ -70,13 +72,13 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 | Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     67.4%     |     29.2%     | 67.4% | 44.1% |     84.0%     |
 
 ##  Communication
-We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication (StarCraft 2 version: SC2.4.10).
+We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication. 
 
-| Senarios       | Difficulty |      Finetuned-QMIX (No Communication)      |            QMIX-with-attention ( Communication)             |
+| Senarios (200w steps)      | Difficulty |      Finetuned-QMIX (No Communication)      |            QMIX-with-attention ( Communication)             |
 |----------------|:----------:|:--------------:|:----------------------------------:|
-| 1o_10b_vs_1r (200w steps) | - |       56%      |**87\%** |
-| 1o_2r_vs_4r (200w steps)   | - |      50%      |          **95\%**          |
-| bane_vs_hM (200w steps)     | - |       0%      |  **0\%**  |
+| 1o_10b_vs_1r | - |       56%      |**87\%** |
+| 1o_2r_vs_4r    | - |      50%      |          **95\%**          |
+| bane_vs_hM     | - |       0%      |  **0\%**  |
 
 # Usage
 
@@ -159,7 +161,7 @@ All results will be stored in the `Results` folder and named with `map_name`.
 bash clean.sh
 ```
 
-# Cite
+# Citation
 ```
 @article{hu2021revisiting,
       title={Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
