@@ -76,7 +76,7 @@ We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\
 |----------------|:----------:|:--------------:|:----------------------------------:|
 | 1o_10b_vs_1r (200w steps) | - |       56%      |**87\%** |
 | 1o_2r_vs_4r (200w steps)   | - |      50%      |          **95\%**          |
-| bane_vs_hM     | - |       0%      |  **0\%**  |
+| bane_vs_hM (200w steps)     | - |       0%      |  **0\%**  |
 
 # Usage
 
