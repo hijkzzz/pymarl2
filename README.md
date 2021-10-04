@@ -70,7 +70,7 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 | Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     67.4%     |     29.2%     | 67.4% | 44.1% |     84.0%     |
 
 ##  Communication
-We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (fron [NDQ](https://github.com/TonghanWang/NDQ)) that require communication (StarCraft 2 version: SC2.4.10).
+We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication (StarCraft 2 version: SC2.4.10).
 
 | Senarios       | Difficulty |      QMIX (batch_size=128, No Communication)      |            QMIX-with-attention ( Communication)             |
 |----------------|:----------:|:--------------:|:----------------------------------:|
