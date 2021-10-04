@@ -4,7 +4,7 @@ Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Mult
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
 
-**StarCraft 2 version: SC2.4.10.**
+**StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
