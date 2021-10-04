@@ -72,7 +72,7 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 ##  Communication
 We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication (StarCraft 2 version: SC2.4.10).
 
-| Senarios       | Difficulty |      QMIX (batch_size=128, No Communication)      |            QMIX-with-attention ( Communication)             |
+| Senarios       | Difficulty |      Finetuned-QMIX (No Communication)      |            QMIX-with-attention ( Communication)             |
 |----------------|:----------:|:--------------:|:----------------------------------:|
 | 1o_10b_vs_1r (200w steps) | - |       56%      |**87\%** |
 | 1o_2r_vs_4r (200w steps)   | - |      50%      |          **95\%**          |
