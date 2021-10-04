@@ -1,10 +1,13 @@
+
 # RMC
 Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479). 
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
 
-
-## Code-level Optimizations
+```
+2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
+```
+## Finetuned-QMIX
 There are so many code-level tricks in the  Multi-agent Reinforcement Learning (MARL), such as:
 - Value function clipping (clip max Q values for QMIX)
 - Value Normalization
@@ -26,8 +29,7 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
-### Finetuned-QMIX
-Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (fine-tuned QMIX for each scenarios).
+Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters for each scenarios). (StarCraft 2 version: SC2.4.10)
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
@@ -50,7 +52,7 @@ Using a few of tricks above (bold texts), we enabled QMIX to solve almost all ha
 
 
 ## Re-Evaluation
-Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA (StarCraft 2, SC2.4.10). 
+Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA (StarCraft 2 version: SC2.4.10). 
 
 | Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
 |----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
@@ -67,7 +69,16 @@ Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a 
 | Discrete PP    | -              |   **40**   |       39       |        -        |       39       |       39       |       30       |   39   |   32   |       38       |
 | Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     67.4%     |     29.2%     | 67.4% | 44.1% |     84.0%     |
 
-## PyMARL
+##  Communication
+We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (fron [NDQ](https://github.com/TonghanWang/NDQ)) that require communication (StarCraft 2 version: SC2.4.10).
+
+| Senarios       | Difficulty |      QMIX (batch_size=128, No Communication)      |            QMIX-with-attention ( Communication)             |
+|----------------|:----------:|:--------------:|:----------------------------------:|
+| 1o_10b_vs_1r (200w steps) | - |       56%      |**87\%** |
+| 1o_2r_vs_4r (200w steps)   | - |      50%      |          **95\%**          |
+| bane_vs_hM     | - |       0%      |  **0\%**  |
+
+# Usage
 
 PyMARL is [WhiRL](http://whirl.cs.ox.ac.uk)'s framework for deep multi-agent reinforcement learning and includes implementations of the following algorithms:
 
@@ -89,7 +100,7 @@ Actor Critic Methods:
 - [**DOP**: Off-Policy Multi-Agent Decomposed Policy Gradients](https://arxiv.org/abs/2007.12322)
 - [**RMC**: Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479)
 
-### Installation instructions
+## Installation instructions
 
 Install Python packages
 ```shell
@@ -104,7 +115,7 @@ bash install_sc2.sh
 
 This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
 
-### Command Line Tool
+## Command Line Tool
 
 **Run an experiment**
 
@@ -117,6 +128,12 @@ python3 src/main.py --config=qmix --env-config=sc2 with env_args.map_name=corrid
 # For Difficulty-Enhanced Predator-Prey
 python3 src/main.py --config=qmix_predator_prey --env-config=stag_hunt with env_args.map_name=stag_hunt
 ```
+
+```shell
+# For Communication tasks
+python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o_10b_vs_1r
+```
+
 
 The config files act as defaults for an algorithm or environment. 
 
@@ -142,7 +159,7 @@ All results will be stored in the `Results` folder and named with `map_name`.
 bash clean.sh
 ```
 
-## Cite
+# Cite
 ```
 @article{hu2021revisiting,
       title={Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 

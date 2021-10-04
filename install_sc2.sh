@@ -1,6 +1,8 @@
 #!/bin/bash
 # Install SC2 and add the custom maps
 
+smac_mpas=$(pwd)/smac_maps
+
 cd "$HOME"
 export SC2PATH="$HOME/StarCraftII"
 echo 'SC2PATH is set to '$SC2PATH
@@ -25,7 +27,10 @@ fi
 cd ..
 wget https://github.com/oxwhirl/smac/releases/download/v0.1-beta1/SMAC_Maps.zip
 unzip SMAC_Maps.zip
+
+cp -r "$smac_mpas/*.SC2Map" ./SMAC_Maps 
 mv SMAC_Maps $MAP_DIR
 rm -rf SMAC_Maps.zip
+
 
 echo 'StarCraft II and SMAC are installed.'

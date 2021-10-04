@@ -2,7 +2,9 @@ from functools import partial
 import sys
 import os
 
-from smac.env import MultiAgentEnv, StarCraft2Env
+from .multiagentenv import MultiAgentEnv
+
+from .starcraft import StarCraft2Env
 from .one_step_matrix_game import OneStepMatrixGame
 from .stag_hunt import StagHunt
 
