@@ -12,9 +12,9 @@ function onCtrlC () {
 }
 
 config=$1  # qmix
-maps=$2    # MMM2,3s5z_vs_3s6z
-threads=$3 # 2
-args=$4    # ""
+maps=${2:-2c_vs_64zg,8m_vs_9m,3s_vs_5z,5m_vs_6m,3s5z_vs_3s6z,corridor,6h_vs_8z,MMM2,27m_vs_30m}   # MMM2,3s5z_vs_3s6z
+threads=${3:-2} # 2
+args=${4:-}    # ""
 gpus=$5    # 0,1
 times=$6   # 5
 
@@ -37,7 +37,7 @@ if [ ! $gpus ]; then
 fi
 
 if [ ! $times ]; then
-  times=6
+  times=3
 fi
 
 echo "CONFIG:" $config
@@ -53,7 +53,7 @@ count=0
 for map in "${maps[@]}"; do
     for((i=0;i<times;i++)); do
         gpu=${gpus[$(($count % ${#gpus[@]}))]}  
-        CUDA_VISIBLE_DEVICES="$gpu" python3 src/main.py --config="$config" --env-config=sc2 with env_args.map_name="$map" "${args[@]}" &
+        ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config=sc2 with env_args.map_name="$map" "${args[@]}" &
 
         count=$(($count + 1))     
         if [ $(($count % $threads)) -eq 0 ]; then
