@@ -21,13 +21,13 @@ def get_parameters_num(param_list):
     return str(sum(p.numel() for p in param_list) / 1000) + 'K'
 
 
-def init(module, weight_init, bias_init, gain=0.01):
+def init(module, weight_init, bias_init, gain=1):
     weight_init(module.weight.data, gain=gain)
     bias_init(module.bias.data)
     return module
 
 
-def orthogonal_init_(m):
+def orthogonal_init_(m, gain=1):
     if isinstance(m, nn.Linear):
         init(m, nn.init.orthogonal_,
-                    lambda x: nn.init.constant_(x, 0))
+                    lambda x: nn.init.constant_(x, 0), gain=gain)

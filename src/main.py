@@ -32,7 +32,10 @@ def my_main(_run, _config, _log):
     config['env_args']['seed'] = config["seed"]
     
     # run
-    run_REGISTRY[_config['run']](_run, config, _log)
+    if "use_per" in _config and _config["use_per"]:
+        run_REGISTRY['per_run'](_run, config, _log)
+    else:
+        run_REGISTRY[_config['run']](_run, config, _log)
 
 def _get_config(params, arg_name, subfolder):
     config_name = None

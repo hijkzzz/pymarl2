@@ -1,26 +1,21 @@
 import torch.nn as nn
 import torch.nn.functional as F
-import torch as th
-import numpy as np
-import torch.nn.init as init
-from utils.th_utils import orthogonal_init_
+from utils.noisy_liner import NoisyLinear
 from torch.nn import LayerNorm
 
-class NRNNAgent(nn.Module):
+class NoisyRNNAgent(nn.Module):
     def __init__(self, input_shape, args):
-        super(NRNNAgent, self).__init__()
+        super(NoisyRNNAgent, self).__init__()
         self.args = args
 
         self.fc1 = nn.Linear(input_shape, args.rnn_hidden_dim)
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
-        self.fc2 = nn.Linear(args.rnn_hidden_dim, args.n_actions)
+        self.fc2 = NoisyLinear(args.rnn_hidden_dim, args.n_actions, True, args.device)
+
 
         if getattr(args, "use_feature_norm", False):
             self.feature_norm = LayerNorm(input_shape)
         
-        if getattr(args, "use_orthogonal", False):
-            orthogonal_init_(self.fc1)
-            orthogonal_init_(self.fc2, gain=args.gain)
 
     def init_hidden(self):
         # make hidden states on same device as model
@@ -28,7 +23,7 @@ class NRNNAgent(nn.Module):
 
     def forward(self, inputs, hidden_state):
         b, a, e = inputs.size()
-
+        
         inputs = inputs.view(-1, e)
         if getattr(self.args, "use_feature_norm", False):
             inputs = self.feature_norm(inputs)

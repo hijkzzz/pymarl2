@@ -13,7 +13,7 @@ class Five_vs_Five(MultiAgentEnv):
         dense_reward=False,
         write_full_episode_dumps=False,
         write_goal_dumps=False,
-        dump_freq=1000,
+        dump_freq=10000,
         render=False,
         n_agents=4,
         time_limit=500,
@@ -24,7 +24,7 @@ class Five_vs_Five(MultiAgentEnv):
         representation="simple115",
         rewards='scoring',
         logdir='football_dumps',
-        write_video=True,
+        write_video=False,
         number_of_right_players_agent_controls=0,
         seed=0,
         min_return=-1000,
@@ -76,7 +76,6 @@ class Five_vs_Five(MultiAgentEnv):
         self.n_actions = self.action_space[0].n
 
         self.unit_dim = self.obs_dim  # QPLEX unit_dim for cds_gfootball
-        # self.unit_dim = 8  # QPLEX unit_dim set like that in Starcraft II
 
         self.reward_record = [0, 0]
         self.game_mode = 0

@@ -7,9 +7,9 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
-2021.10.23 update: add qmix_use_norm.yaml 
-                  [Enable feature normalization and orthogonal initialization] (Insufficient testing).
-           update: add Google Football Environments (Insufficient testing).
+2021.10.24 update: add qmix_rainbow.yaml [Enable a lot of tricks, likewise rainbow] (Insufficient testing).
+
+2021.10.23 update: add Google Football Environments [qmix_gfootball.yaml] (Insufficient testing).
 
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
@@ -35,7 +35,7 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
-Using a few of tricks above (bold texts), we enabled QMIX to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters **for each scenarios**).
+Using a few of tricks above (bold texts), we enabled QMIX (qmix.yaml) to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters **for each scenarios**).
 
 
 | Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
@@ -147,6 +147,8 @@ python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o
 
 ```shell
 # For Google Football (Insufficient testing)
+# The scenarios used here use only victory or defeat as the rewards (i.e, sparse reward).
+# map_name: academy_counterattack_easy, academy_counterattack_hard, five_vs_five
 python3 src/main.py --config=qmix_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard
 ```
 

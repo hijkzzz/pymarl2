@@ -1,8 +1,8 @@
 import torch as th
 import numpy as np
 from types import SimpleNamespace as SN
-
-
+from .segment_tree import SumSegmentTree, MinSegmentTree
+import random
 class EpisodeBatch:
     def __init__(self,
                  scheme,
@@ -258,3 +258,86 @@ class ReplayBuffer(EpisodeBatch):
                                                                         self.scheme.keys(),
                                                                         self.groups.keys())
 
+
+# Adapted from the OpenAI Baseline implementations (https://github.com/openai/baselines)
+class PrioritizedReplayBuffer(ReplayBuffer):
+    def __init__(self, scheme, groups, buffer_size, max_seq_length, alpha, beta, t_max, preprocess=None, device="cpu"):
+        super(PrioritizedReplayBuffer, self).__init__(scheme, groups, buffer_size, max_seq_length,
+                                                      preprocess=preprocess, device="cpu")
+        self.alpha = alpha
+        self.beta_original = beta
+        self.beta = beta
+        self.beta_increment = (1.0 - beta) / t_max
+        self.max_priority = 1.0
+
+        it_capacity = 1
+        while it_capacity < buffer_size:
+            it_capacity *= 2
+
+        self._it_sum = SumSegmentTree(it_capacity)
+        self._it_min = MinSegmentTree(it_capacity)
+
+    def insert_episode_batch(self, ep_batch):
+        # TODO: convert batch/episode to idx?
+        pre_idx = self.buffer_index
+        super().insert_episode_batch(ep_batch)
+        idx = self.buffer_index
+        if idx >= pre_idx:
+            for i in range(idx - pre_idx):
+                self._it_sum[pre_idx + i] = self.max_priority ** self.alpha
+                self._it_min[pre_idx + i] = self.max_priority ** self.alpha
+        else:
+            for i in range(self.buffer_size - pre_idx):
+                self._it_sum[pre_idx + i] = self.max_priority ** self.alpha
+                self._it_min[pre_idx + i] = self.max_priority ** self.alpha
+            for i in range(self.buffer_index):
+                self._it_sum[i] = self.max_priority ** self.alpha
+                self._it_min[i] = self.max_priority ** self.alpha
+
+    def _sample_proportional(self, batch_size):
+        res = []
+        p_total = self._it_sum.sum(0, self.episodes_in_buffer - 1)
+        every_range_len = p_total / batch_size
+        for i in range(batch_size):
+            mass = random.random() * every_range_len + i * every_range_len
+            idx = self._it_sum.find_prefixsum_idx(mass)
+            res.append(idx)
+        return res
+
+    def sample(self, batch_size, t):
+        assert self.can_sample(batch_size)
+        self.beta = self.beta_original + (t * self.beta_increment)
+
+        idxes = self._sample_proportional(batch_size)
+        weights = []
+        p_min = self._it_min.min() / self._it_sum.sum()
+        max_weight = (p_min * self.episodes_in_buffer) ** (-self.beta)
+
+        for idx in idxes:
+            p_sample = self._it_sum[idx] / self._it_sum.sum()
+            weight = (p_sample * self.episodes_in_buffer) ** (-self.beta)
+            weights.append(weight / max_weight)
+        weights = np.array(weights)
+
+        return self[idxes], idxes, weights
+
+    def update_priorities(self, idxes, priorities):
+        """Update priorities of sampled transitions.
+        sets priority of transition at index idxes[i] in buffer
+        to priorities[i].
+        Parameters
+        ----------
+        idxes: [int]
+            List of idxes of sampled transitions
+        priorities: [float]
+            List of updated priorities corresponding to
+            transitions at the sampled idxes denoted by
+            variable `idxes`.
+        """
+        assert len(idxes) == len(priorities)
+        for idx, priority in zip(idxes, priorities):
+            assert priority > 0
+            assert 0 <= idx < self.episodes_in_buffer
+            self._it_sum[idx] = priority ** self.alpha
+            self._it_min[idx] = priority ** self.alpha
+            self.max_priority = max(self.max_priority, priority)

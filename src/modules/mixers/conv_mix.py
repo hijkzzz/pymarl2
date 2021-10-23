@@ -33,9 +33,6 @@ class ConvMixer(nn.Module):
                             nn.ReLU(inplace=True),
                             nn.Linear(self.embed_dim, 1))
 
-        if getattr(args, "use_feature_norm", False):
-            self.feature_norm = LayerNorm(self.obs_dim)
-
         if getattr(args, "use_orthogonal", False):
             for m in self.modules():
                 orthogonal_init_(m)
@@ -46,9 +43,6 @@ class ConvMixer(nn.Module):
         
         qvals = qvals.reshape(b * t, 1, self.n_agents)
         states = states.reshape(-1, self.n_agents, self.obs_dim)
-
-        if getattr(self.args, "use_feature_norm", False):
-            states = self.feature_norm(states)
 
         # Conv1d
         states = self.conv1d(states).view(b, -1)

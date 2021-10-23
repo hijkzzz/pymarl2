@@ -10,10 +10,12 @@ class Mixer(nn.Module):
         super(Mixer, self).__init__()
 
         self.args = args
-        self.abs = abs
         self.n_agents = args.n_agents
         self.embed_dim = args.mixing_embed_dim
         self.input_dim = self.state_dim = int(np.prod(args.state_shape)) 
+
+        self.abs = abs # monotonicity constraint
+        self.qmix_pos_func = getattr(self.args, "qmix_pos_func", "abs")
         
         # hyper w1 b1
         self.hyper_w1 = nn.Sequential(nn.Linear(self.input_dim, args.hypernet_embed),
@@ -29,9 +31,6 @@ class Mixer(nn.Module):
                             nn.ReLU(inplace=True),
                             nn.Linear(self.embed_dim, 1))
 
-        if getattr(args, "use_feature_norm", False):
-            self.feature_norm = LayerNorm(self.input_dim)
-
         if getattr(args, "use_orthogonal", False):
             for m in self.modules():
                 orthogonal_init_(m)
@@ -43,9 +42,6 @@ class Mixer(nn.Module):
         qvals = qvals.reshape(b * t, 1, self.n_agents)
         states = states.reshape(-1, self.state_dim)
 
-        if getattr(self.args, "use_feature_norm", False):
-            states = self.feature_norm(states)
-
         # First layer
         w1 = self.hyper_w1(states).view(-1, self.n_agents, self.embed_dim) # b * t, n_agents, emb
         b1 = self.hyper_b1(states).view(-1, 1, self.embed_dim)
@@ -55,12 +51,20 @@ class Mixer(nn.Module):
         b2= self.hyper_b2(states).view(-1, 1, 1)
         
         if self.abs:
-            w1 = w1.abs()
-            w2 = w2.abs()
+            w1 = self.pos_func(w1)
+            w2 = self.pos_func(w2)
             
         # Forward
         hidden = F.elu(th.matmul(qvals, w1) + b1) # b * t, 1, emb
         y = th.matmul(hidden, w2) + b2 # b * t, 1, 1
         
         return y.view(b, t, -1)
-    
+
+    def pos_func(self, x):
+        if self.qmix_pos_func == "softplus":
+            return th.nn.Softplus(beta=self.args.qmix_pos_func_beta)(x)
+        elif self.qmix_pos_func == "quadratic":
+            return 0.5 * x ** 2
+        else:
+            return th.abs(x)
+        

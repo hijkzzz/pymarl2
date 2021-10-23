@@ -10,7 +10,6 @@ import torch as th
 from torch.optim import RMSprop, Adam
 import numpy as np
 from utils.th_utils import get_parameters_num
-from utils.value_norm import ValueNorm
 
 class NQLearner:
     def __init__(self, mac, scheme, logger, args):
@@ -45,14 +44,17 @@ class NQLearner:
 
         # a little wasteful to deepcopy (e.g. duplicates action selector), but should work for any MAC
         self.target_mac = copy.deepcopy(mac)
-
         self.log_stats_t = -self.args.learner_log_interval - 1
-        
         self.train_t = 0
 
-        # th.autograd.set_detect_anomaly(True)
+        # priority replay
+        self.use_per = getattr(self.args, 'use_per', False)
+        self.return_priority = getattr(self.args, "return_priority", False)
+        if self.return_priority:
+            self.return_max = float('-inf')
+            self.return_min = float('inf')
         
-    def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
+    def train(self, batch: EpisodeBatch, t_env: int, episode_num: int, per_weight=None):
         # Get the relevant quantities
         rewards = batch["reward"][:, :-1]
         actions = batch["actions"][:, :-1]
@@ -62,6 +64,7 @@ class NQLearner:
         avail_actions = batch["avail_actions"]
         
         # Calculate estimated Q-Values
+        self.mac.agent.train()
         mac_out = []
         self.mac.init_hidden(batch.batch_size)
         for t in range(batch.max_seq_length):
@@ -75,6 +78,7 @@ class NQLearner:
 
         # Calculate the Q-Values necessary for the target
         with th.no_grad():
+            self.target_mac.agent.train()
             target_mac_out = []
             self.target_mac.init_hidden(batch.batch_size)
             for t in range(batch.max_seq_length):
@@ -107,10 +111,16 @@ class NQLearner:
         chosen_action_qvals = self.mixer(chosen_action_qvals, batch["state"][:, :-1])
 
         td_error = (chosen_action_qvals - targets.detach())
-        td_error = 0.5 * td_error.pow(2)
+        td_error2 = 0.5 * td_error.pow(2)
 
-        mask = mask.expand_as(td_error)
-        masked_td_error = td_error * mask
+        mask = mask.expand_as(td_error2)
+        masked_td_error = td_error2 * mask
+
+        # important sampling for PER
+        if self.use_per:
+            per_weight = th.from_numpy(per_weight).unsqueeze(-1).to(device=self.device)
+            masked_td_error = masked_td_error.sum(1) * per_weight
+
         loss = L_td = masked_td_error.sum() / mask.sum()
 
         # Optimise
@@ -135,6 +145,20 @@ class NQLearner:
             # print estimated matrix
             if self.args.env == "one_step_matrix_game":
                 print_matrix_status(batch, self.mixer, mac_out)
+
+        # return info
+        info = {}
+        if self.use_per:
+            # calculate priority
+            if self.return_priority:
+                returns = rewards.sum(1)
+                self.return_max = max(th.max(returns).item(), self.return_max)
+                self.return_min = min(th.min(returns).item(), self.return_min)
+                returns = (returns - self.return_min) / (self.return_max - self.return_min + 1e-5)
+                info["td_errors_abs"] = returns.detach().to('cpu')
+            else:
+                info["td_errors_abs"] = ((td_error.abs() * mask).sum(1) / th.sqrt(mask.sum(1))).detach().to('cpu')
+        return info
 
     def _update_targets(self):
         self.target_mac.load_state(self.mac)
