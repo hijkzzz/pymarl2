@@ -1,4 +1,5 @@
 import torch as th
+import torch.nn as nn
 import numpy as np
 
 
@@ -16,10 +17,10 @@ def build_td_lambda_targets(rewards, terminated, mask, target_qs, n_agents, gamm
 
 
 def build_gae_targets(rewards, masks, values, gamma, lambd):
-    B, T, _ = values.size()
+    B, T, A, _ = values.size()
     T-=1
-    advantages = th.zeros(B, T, 1).to(device=values.device)
-    advantage_t = th.zeros(B, 1).to(device=values.device)
+    advantages = th.zeros(B, T, A, 1).to(device=values.device)
+    advantage_t = th.zeros(B, A, 1).to(device=values.device)
 
     for t in reversed(range(T)):
         delta = rewards[:, t] + values[:, t+1] * gamma * masks[:, t] - values[:, t]
@@ -57,7 +58,19 @@ def build_target_q(td_q, target_q, mac, mask, gamma, td_lambda, n):
         t1 = th.cat(((t1 * mac)[:, 1:], aug), dim=1)
         coeff *= gamma * td_lambda
     return target_q + tree_q_vals
-        
+
+
+def init(module, weight_init, bias_init, gain=1):
+    weight_init(module.weight.data, gain=gain)
+    bias_init(module.bias.data)
+    return module
+
+
+def orthogonal_init_(m):
+    if isinstance(m, nn.Linear):
+        init(m, nn.init.orthogonal_,
+                    lambda x: nn.init.constant_(x, 0))
+
 class RunningMeanStd(object):
     # https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Parallel_algorithm
     def __init__(self, epsilon=1e-4, shape=()):

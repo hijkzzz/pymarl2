@@ -9,8 +9,8 @@ class ConvAgent(nn.Module):
 
         self.conv1 = nn.Conv1d(input_shape, 64, 2)
         self.conv2 = nn.Conv1d(64, 128, 3)
-        self.fc1 = nn.Linear(128, 256)
-        self.fc2 = nn.Linear(256, args.n_actions)
+        self.fc1 = nn.Linear(128, 128)
+        self.fc2 = nn.Linear(128, args.n_actions)
 
     def init_hidden(self):
         return None

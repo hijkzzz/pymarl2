@@ -3,7 +3,7 @@ from components.episode_buffer import EpisodeBatch
 from modules.mixers.vdn import VDNMixer
 from modules.mixers.qmix import QMixer
 from utils.rl_utils import build_td_lambda_targets
-from envs.one_step_matrix_game import print_matrix_status
+from envs.matrix_game import print_matrix_status
 import torch as th
 from torch.optim import RMSprop, Adam
 import numpy as np

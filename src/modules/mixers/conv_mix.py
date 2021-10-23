@@ -5,15 +5,19 @@ import numpy as np
 from utils.rl_utils import orthogonal_init_
 from torch.nn import LayerNorm
 
-class Mixer(nn.Module):
+class ConvMixer(nn.Module):
     def __init__(self, args, abs=True):
-        super(Mixer, self).__init__()
+        super(ConvMixer, self).__init__()
 
         self.args = args
         self.abs = abs
         self.n_agents = args.n_agents
         self.embed_dim = args.mixing_embed_dim
-        self.input_dim = self.state_dim = int(np.prod(args.state_shape)) 
+        self.obs_dim = int(np.prod(args.state_shape)) // self.n_agents
+
+        # conv1d encoding
+        self.conv1d = nn.Conv1d(self.obs_dim, args.hypernet_embed, 3, padding="same")
+        self.input_dim = args.hypernet_embed * self.n_agents
         
         # hyper w1 b1
         self.hyper_w1 = nn.Sequential(nn.Linear(self.input_dim, args.hypernet_embed),
@@ -30,7 +34,7 @@ class Mixer(nn.Module):
                             nn.Linear(self.embed_dim, 1))
 
         if getattr(args, "use_feature_norm", False):
-            self.feature_norm = LayerNorm(self.input_dim)
+            self.feature_norm = LayerNorm(self.obs_dim)
 
         if getattr(args, "use_orthogonal", False):
             for m in self.modules():
@@ -41,10 +45,14 @@ class Mixer(nn.Module):
         b, t, _ = qvals.size()
         
         qvals = qvals.reshape(b * t, 1, self.n_agents)
-        states = states.reshape(-1, self.state_dim)
+        states = states.reshape(-1, self.n_agents, self.obs_dim)
 
         if getattr(self.args, "use_feature_norm", False):
             states = self.feature_norm(states)
+
+        # Conv1d
+        states = self.conv1d(states).view(b, -1)
+        states = F.relu(states, inplace=True)
 
         # First layer
         w1 = self.hyper_w1(states).view(-1, self.n_agents, self.embed_dim) # b * t, n_agents, emb

@@ -1,6 +1,6 @@
 import copy
 from components.episode_buffer import EpisodeBatch
-from modules.critics.centralv import CentralVCritic
+from controllers.n_controller import NMAC
 from components.action_selectors import categorical_entropy
 from utils.rl_utils import build_gae_targets
 import torch as th
@@ -20,7 +20,10 @@ class PPOLearner:
 
         self.log_stats_t = -self.args.learner_log_interval - 1
 
-        self.critic = CentralVCritic(scheme, args)
+        # a trick to reuse mac
+        dummy_args = copy.deepcopy(args)
+        dummy_args.n_actions = 1
+        self.critic = NMAC(scheme, None, dummy_args)
         self.params = list(mac.parameters()) + list(self.critic.parameters())
 
         self.optimiser = Adam(params=self.params, lr=args.lr)
@@ -41,20 +44,33 @@ class PPOLearner:
         mask_agent = mask.unsqueeze(2).repeat(1, 1, self.n_agents, 1)
         
         # targets and advantages
-        values = self.critic(batch)
-        advantages, targets = build_gae_targets(
-            rewards, mask, values, self.args.gamma, self.args.gae_lambda)
+        with th.no_grad():
+            values = []
+            self.critic.init_hidden(batch.batch_size)
+            for t in range(batch.max_seq_length):
+                agent_outs = self.critic.forward(batch, t=t)
+                values.append(agent_outs)
+            values = th.stack(values, dim=1) 
+
+            advantages, targets = build_gae_targets(rewards.unsqueeze(2).repeat(1, 1, self.n_agents, 1), 
+                    mask_agent, values, self.args.gamma, self.args.gae_lambda)
         
-        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
-        advantages = advantages.unsqueeze(2).repeat(1, 1, self.n_agents, 1)
+        advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-6)
         
+        # PPO Loss
         for _ in range(self.args.mini_epochs):
             # Critic
-            values = self.critic(batch)
+            values = []
+            self.critic.init_hidden(batch.batch_size)
+            for t in range(batch.max_seq_length-1):
+                agent_outs = self.critic.forward(batch, t=t)
+                values.append(agent_outs)
+            values = th.stack(values, dim=1) 
+
             # 0-out the targets that came from padded data
-            td_error = (values[:, :-1] - targets.detach())
-            masked_td_error = td_error * mask
-            critic_loss = 0.5 * (masked_td_error ** 2).sum() / mask.sum()
+            td_error = (values - targets.detach())
+            masked_td_error = td_error * mask_agent
+            critic_loss = 0.5 * (masked_td_error ** 2).sum() / mask_agent.sum()
 
             # Actor
             pi = []
@@ -76,26 +92,25 @@ class PPOLearner:
             # entropy
             entropy_loss = categorical_entropy(pi).mean(-1, keepdim=True) # mean over agents
             entropy_loss[mask == 0] = 0 # fill nan
-            entropy_loss = (entropy_loss* mask).sum() / mask.sum()
-            loss = actor_loss + self.args.critic_coef * critic_loss - self.args.entropy * entropy_loss / entropy_loss.item()
+            entropy_loss = (entropy_loss * mask).sum() / mask.sum()
+            loss = actor_loss + self.args.critic_coef * critic_loss - self.args.entropy * entropy_loss
 
             # Optimise agents
             self.optimiser.zero_grad()
             loss.backward()
             grad_norm = th.nn.utils.clip_grad_norm_(self.params, self.args.grad_norm_clip)
             self.optimiser.step()
-            
+
 
         if t_env - self.log_stats_t >= self.args.learner_log_interval:
-            self.logger.log_stat("advantage_mean", (advantages * mask_agent).sum().item() / mask_agent.sum().item(), t_env)
+            mask_elems = mask_agent.sum().item()
+            self.logger.log_stat("advantage_mean", (advantages * mask_agent).sum().item() / mask_elems, t_env)
             self.logger.log_stat("actor_loss", actor_loss.item(), t_env)
             self.logger.log_stat("entropy_loss", entropy_loss.item(), t_env)
             self.logger.log_stat("grad_norm", grad_norm, t_env)
             self.logger.log_stat("lr", self.last_lr, t_env)
             self.logger.log_stat("critic_loss", critic_loss.item(), t_env)
-            mask_elems = mask.sum().item()
-            self.logger.log_stat("td_error_abs", masked_td_error.abs().sum().item() / mask_elems, t_env)
-            self.logger.log_stat("target_mean", (targets * mask).sum().item() / mask_elems, t_env)
+            self.logger.log_stat("target_mean", (targets * mask_agent).sum().item() / mask_elems, t_env)
             self.log_stats_t = t_env
 
 

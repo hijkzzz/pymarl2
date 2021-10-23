@@ -146,8 +146,8 @@ They are all located in `src/config`.
 **Run n parallel experiments**
 
 ```shell
-# bash run.sh config_name map_name_list (threads_num arg_list gpu_list experinments_num)
-bash run.sh qmix 6h_vs_8z 2 epsilon_anneal_time=500000,td_lambda=0.3 0 5
+# bash run.sh config_name env_config_name map_name_list (arg_list threads_num gpu_list experinments_num)
+bash run.sh qmix sc2 6h_vs_8z epsilon_anneal_time=500000,td_lambda=0.3 2 0 5
 ```
 
 `xxx_list` is separated by `,`.
