@@ -24,10 +24,16 @@ critic_coef: 1
 entropy: 0.01
 gae_lambda: 0.95
 mini_epochs: 10
-eps_clip: 0.1
+eps_clip: 0.15
 save_probs: True
 
 agent_output_type: "pi_logits"
 learner: "ppo_learner"
 
-name: "ippo_env=8_adam_gae" # without value norm and other implementation tricks
+# with value norm, feature_norm, orthogonal
+# but, without death agent mask, data chunk, value clip ...
+use_feature_norm: True
+use_orthogonal: True
+use_value_norm: True
+
+name: "ippo_env=8_adam_gae"

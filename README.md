@@ -1,5 +1,5 @@
 
-# RMC
+# PyMARL2
 Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479).
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
@@ -7,6 +7,10 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
+2021.10.23 update: add qmix_use_norm.yaml 
+                  [Enable feature normalization and orthogonal initialization] (Insufficient testing).
+           update: add Google Football Environments (Insufficient testing).
+
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
 ## Finetuned-QMIX
@@ -117,6 +121,11 @@ bash install_sc2.sh
 
 This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
 
+Set up Google Football:
+```shell
+bash install_gfootball.sh
+```
+
 ## Command Line Tool
 
 **Run an experiment**
@@ -134,6 +143,11 @@ python3 src/main.py --config=qmix_predator_prey --env-config=stag_hunt with env_
 ```shell
 # For Communication tasks
 python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o_10b_vs_1r
+```
+
+```shell
+# For Google Football (Insufficient testing)
+python3 src/main.py --config=qmix_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard
 ```
 
 

@@ -3,7 +3,7 @@ import torch.nn.functional as F
 import torch as th
 import numpy as np
 import torch.nn.init as init
-from utils.rl_utils import orthogonal_init_
+from utils.th_utils import orthogonal_init_
 from torch.nn import LayerNorm
 
 class NRNNAgent(nn.Module):

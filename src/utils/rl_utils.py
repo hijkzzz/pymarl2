@@ -59,18 +59,6 @@ def build_target_q(td_q, target_q, mac, mask, gamma, td_lambda, n):
         coeff *= gamma * td_lambda
     return target_q + tree_q_vals
 
-
-def init(module, weight_init, bias_init, gain=1):
-    weight_init(module.weight.data, gain=gain)
-    bias_init(module.bias.data)
-    return module
-
-
-def orthogonal_init_(m):
-    if isinstance(m, nn.Linear):
-        init(m, nn.init.orthogonal_,
-                    lambda x: nn.init.constant_(x, 0))
-
 class RunningMeanStd(object):
     # https://en.wikipedia.org/wiki/Algorithms_for_calculating_variance#Parallel_algorithm
     def __init__(self, epsilon=1e-4, shape=()):

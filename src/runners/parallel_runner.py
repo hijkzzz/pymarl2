@@ -19,8 +19,7 @@ class ParallelRunner:
         self.parent_conns, self.worker_conns = zip(*[Pipe() for _ in range(self.batch_size)])
         env_fn = env_REGISTRY[self.args.env]
         self.ps = []
-        for rank, worker_conn in enumerate(self.worker_conns):
-            self.args.env_args['seed'] += rank
+        for i, worker_conn in enumerate(self.worker_conns):
             ps = Process(target=env_worker, 
                     args=(worker_conn, CloudpickleWrapper(partial(env_fn, **self.args.env_args))))
             self.ps.append(ps)

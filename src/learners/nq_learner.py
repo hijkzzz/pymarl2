@@ -9,8 +9,8 @@ from utils.rl_utils import build_td_lambda_targets, build_q_lambda_targets
 import torch as th
 from torch.optim import RMSprop, Adam
 import numpy as np
-from torch.distributions import Categorical
 from utils.th_utils import get_parameters_num
+from utils.value_norm import ValueNorm
 
 class NQLearner:
     def __init__(self, mac, scheme, logger, args):

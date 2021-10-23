@@ -5,7 +5,7 @@ from components.action_selectors import categorical_entropy
 from utils.rl_utils import build_gae_targets
 import torch as th
 from torch.optim import Adam
-
+from utils.value_norm import ValueNorm
 
 class PPOLearner:
     def __init__(self, mac, scheme, logger, args):
@@ -28,6 +28,10 @@ class PPOLearner:
 
         self.optimiser = Adam(params=self.params, lr=args.lr)
         self.last_lr = args.lr
+
+        self.use_value_norm = getattr(self.args, "use_value_norm", False)
+        if self.use_value_norm:
+            self.value_norm = ValueNorm(1, device=self.args.device)
         
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int):
         # Get the relevant quantities
@@ -52,8 +56,17 @@ class PPOLearner:
                 values.append(agent_outs)
             values = th.stack(values, dim=1) 
 
+            if self.use_value_norm:
+                value_shape = values.shape
+                values = self.value_norm.denormalize(values.view(-1)).view(value_shape)
+
             advantages, targets = build_gae_targets(rewards.unsqueeze(2).repeat(1, 1, self.n_agents, 1), 
                     mask_agent, values, self.args.gamma, self.args.gae_lambda)
+
+            if self.use_value_norm:
+                targets_shape = targets.shape
+                self.value_norm.update(targets.view(-1))
+                targets = self.value_norm.normalize(targets).view(targets_shape)
         
         advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-6)
         

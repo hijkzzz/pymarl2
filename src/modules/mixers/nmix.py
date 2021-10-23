@@ -2,7 +2,7 @@ import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
-from utils.rl_utils import orthogonal_init_
+from utils.th_utils import orthogonal_init_
 from torch.nn import LayerNorm
 
 class Mixer(nn.Module):
