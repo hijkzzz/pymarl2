@@ -50,9 +50,9 @@ class NQLearner:
         # priority replay
         self.use_per = getattr(self.args, 'use_per', False)
         self.return_priority = getattr(self.args, "return_priority", False)
-        if self.return_priority:
-            self.return_max = float('-inf')
-            self.return_min = float('inf')
+        if self.use_per:
+            self.priority_max = float('-inf')
+            self.priority_min = float('inf')
         
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int, per_weight=None):
         # Get the relevant quantities
@@ -148,16 +148,18 @@ class NQLearner:
 
         # return info
         info = {}
+        # calculate priority
         if self.use_per:
-            # calculate priority
             if self.return_priority:
-                returns = rewards.sum(1)
-                self.return_max = max(th.max(returns).item(), self.return_max)
-                self.return_min = min(th.min(returns).item(), self.return_min)
-                returns = (returns - self.return_min) / (self.return_max - self.return_min + 1e-5)
-                info["td_errors_abs"] = returns.detach().to('cpu')
+                info["td_errors_abs"] = rewards.sum(1).detach().to('cpu')
             else:
-                info["td_errors_abs"] = ((td_error.abs() * mask).sum(1) / th.sqrt(mask.sum(1))).detach().to('cpu')
+                info["td_errors_abs"] = ((td_error.abs() * mask).sum(1) / mask.sum(1)).detach().to('cpu')
+
+            # normalize
+            self.priority_max = max(th.max(info["td_errors_abs"]).item(), self.priority_max)
+            self.priority_min = min(th.min(info["td_errors_abs"]).item(), self.priority_min)
+            info["td_errors_abs"] = (info["td_errors_abs"] - self.priority_min) \
+                            / (self.priority_max - self.priority_min + 1e-5)
         return info
 
     def _update_targets(self):

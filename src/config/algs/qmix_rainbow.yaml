@@ -33,7 +33,7 @@ td_lambda: 0.5
 optimizer: 'adam'
 
 # state normalization
-use_feature_norm: True
+use_feature_norm: False
 
 # orthogonal init for DNN
 use_orthogonal: True
