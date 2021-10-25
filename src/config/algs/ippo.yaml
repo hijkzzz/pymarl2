@@ -30,9 +30,9 @@ save_probs: True
 agent_output_type: "pi_logits"
 learner: "ppo_learner"
 
-# with value norm, feature_norm, orthogonal
+# with value norm, layer_norm, orthogonal
 # but, without death agent mask, data chunk, value clip ...
-use_feature_norm: True
+use_layer_norm: True
 use_orthogonal: True
 gain: 0.01
 use_value_norm: True

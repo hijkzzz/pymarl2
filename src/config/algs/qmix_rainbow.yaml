@@ -29,15 +29,15 @@ mixer: "qmix"
 mixing_embed_dim: 32
 hypernet_embed: 64
 lr: 0.001 # Learning rate for agents
-td_lambda: 0.5
+td_lambda: 0.6
 optimizer: 'adam'
-
-# state normalization
-use_feature_norm: False
 
 # orthogonal init for DNN
 use_orthogonal: True
 gain: 0.01
+
+# rnn layer normalization
+use_layer_norm: False
 
 # Priority experience replay
 use_per: True

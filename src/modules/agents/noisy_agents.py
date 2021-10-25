@@ -12,10 +12,8 @@ class NoisyRNNAgent(nn.Module):
         self.rnn = nn.GRUCell(args.rnn_hidden_dim, args.rnn_hidden_dim)
         self.fc2 = NoisyLinear(args.rnn_hidden_dim, args.n_actions, True, args.device)
 
-
-        if getattr(args, "use_feature_norm", False):
-            self.feature_norm = LayerNorm(input_shape)
-        
+        if getattr(args, "use_layer_norm", False):
+            self.layer_norm = LayerNorm(args.rnn_hidden_dim)
 
     def init_hidden(self):
         # make hidden states on same device as model
@@ -25,12 +23,12 @@ class NoisyRNNAgent(nn.Module):
         b, a, e = inputs.size()
         
         inputs = inputs.view(-1, e)
-        if getattr(self.args, "use_feature_norm", False):
-            inputs = self.feature_norm(inputs)
-        
         x = F.relu(self.fc1(inputs), inplace=True)
         h_in = hidden_state.reshape(-1, self.args.rnn_hidden_dim)
         h = self.rnn(x, h_in)
+
+        if getattr(self.args, "use_layer_norm", False):
+            h = self.layer_norm(h)
         q = self.fc2(h)
 
         return q.view(b, a, -1), h.view(b, a, -1)
