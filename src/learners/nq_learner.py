@@ -152,14 +152,14 @@ class NQLearner:
         if self.use_per:
             if self.return_priority:
                 info["td_errors_abs"] = (rewards * mask).sum(1).detach().to('cpu')
+                # normalize to [0, 1]
+                self.priority_max = max(th.max(info["td_errors_abs"]).item(), self.priority_max)
+                self.priority_min = min(th.min(info["td_errors_abs"]).item(), self.priority_min)
+                info["td_errors_abs"] = (info["td_errors_abs"] - self.priority_min) \
+                                / (self.priority_max - self.priority_min + 1e-5)
             else:
-                info["td_errors_abs"] = (td_error.abs() * mask).sum(1).detach().to('cpu')
-
-            # normalize to [0, 1]
-            self.priority_max = max(th.max(info["td_errors_abs"]).item(), self.priority_max)
-            self.priority_min = min(th.min(info["td_errors_abs"]).item(), self.priority_min)
-            info["td_errors_abs"] = (info["td_errors_abs"] - self.priority_min) \
-                            / (self.priority_max - self.priority_min + 1e-5)
+                info["td_errors_abs"] = ((td_error.abs() * mask).sum(1) \
+                                / th.sqrt(mask.sum(1))).detach().to('cpu')
         return info
 
     def _update_targets(self):
