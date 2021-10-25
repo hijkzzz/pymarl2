@@ -151,7 +151,7 @@ class NQLearner:
         # calculate priority
         if self.use_per:
             if self.return_priority:
-                info["td_errors_abs"] = (rewards * mask).sum(1).detach().to('cpu')
+                info["td_errors_abs"] = rewards.sum(1).detach().to('cpu')
                 # normalize to [0, 1]
                 self.priority_max = max(th.max(info["td_errors_abs"]).item(), self.priority_max)
                 self.priority_min = min(th.min(info["td_errors_abs"]).item(), self.priority_min)
