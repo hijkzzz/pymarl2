@@ -16,7 +16,7 @@ batch_size: 128
 t_max: 10050000
 
 # update the target network every {} episodes
-target_update_interval: 200
+target_update_interval: 400
 
 # use the Q_Learner to train
 mac: "n_mac"
