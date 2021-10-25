@@ -23,8 +23,8 @@ lr: 0.001
 critic_coef: 0.5
 entropy: 0.01
 gae_lambda: 0.95
-mini_epochs: 10
-eps_clip: 0.15
+mini_epochs: 5
+eps_clip: 0.2
 save_probs: True
 
 agent_output_type: "pi_logits"

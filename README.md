@@ -7,9 +7,7 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
-2021.10.24 update: add qmix_rainbow.yaml [Enable a lot of tricks, likewise rainbow] (Insufficient testing).
-
-2021.10.23 update: add Google Football Environments [qmix_gfootball.yaml] (Insufficient testing).
+2021.10.26 update: add Google Football Environments [qmix_gfootball.yaml] (Insufficient testing).
 
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
