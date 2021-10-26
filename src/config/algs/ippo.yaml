@@ -1,4 +1,6 @@
 # --- CENTRALV specific parameters ---
+# Independent PPO with value norm, layer_norm, orthogonal, value clip
+# but, without death agent mask, data chunk
 
 action_selector: "multinomial"
 epsilon_start: .0
@@ -8,10 +10,10 @@ mask_before_softmax: True
 
 runner: "parallel"
 
-buffer_size: 32
+buffer_size: 64
 batch_size_run: 8
-batch_size: 32
-accumulated_episodes: 4
+batch_size: 64
+accumulated_episodes: 8
 
 mac: 'basic_mac'
 agent: 'n_rnn'
@@ -30,8 +32,6 @@ save_probs: True
 agent_output_type: "pi_logits"
 learner: "ppo_learner"
 
-# with value norm, layer_norm, orthogonal
-# but, without death agent mask, data chunk
 use_layer_norm: True
 use_orthogonal: True
 gain: 0.01

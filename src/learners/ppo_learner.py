@@ -49,16 +49,16 @@ class PPOLearner:
         
         # targets and advantages
         with th.no_grad():
-            values = []
+            old_values = []
             self.critic.init_hidden(batch.batch_size)
             for t in range(batch.max_seq_length):
                 agent_outs = self.critic.forward(batch, t=t)
-                values.append(agent_outs)
-            values = th.stack(values, dim=1) 
+                old_values.append(agent_outs)
+            old_values = th.stack(old_values, dim=1) 
 
             if self.use_value_norm:
-                value_shape = values.shape
-                values = self.value_norm.denormalize(values.view(-1)).view(value_shape)
+                value_shape = old_values.shape
+                values = self.value_norm.denormalize(old_values.view(-1)).view(value_shape)
 
             advantages, targets = build_gae_targets(rewards.unsqueeze(2).repeat(1, 1, self.n_agents, 1), 
                     mask_agent, values, self.args.gamma, self.args.gae_lambda)
@@ -81,7 +81,7 @@ class PPOLearner:
             values = th.stack(values, dim=1) 
 
             # value clip
-            values_clipped = targets + (values - targets).clamp(-self.args.eps_clip,
+            values_clipped = old_values[:,:-1] + (values - old_values[:,:-1]).clamp(-self.args.eps_clip,
                                                                                 self.args.eps_clip)
 
             # 0-out the targets that came from padded data
