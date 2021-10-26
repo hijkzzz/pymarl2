@@ -18,6 +18,10 @@ buffer_cpu_only: True # If true we won't keep all of the replay buffer in vram
 
 # --- Logging options ---
 use_tensorboard: False # Log results to tensorboard
+use_wandb: true
+project: "improve_smac"
+entity: "benellis3"
+group: "ungrouped"
 save_model: False # Save the models to disk
 save_model_interval: 2000000 # Save models after this many timesteps
 checkpoint_path: "" # Load a checkpoint from this path

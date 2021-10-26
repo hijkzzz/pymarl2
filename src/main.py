@@ -10,7 +10,7 @@ import sys
 import torch as th
 from utils.logging import get_logger
 import yaml
-
+import wandb
 from run import REGISTRY as run_REGISTRY
 
 SETTINGS['CAPTURE_MODE'] = "fd" # set to "no" if you want to see stdout/stderr in console
@@ -97,12 +97,11 @@ if __name__ == '__main__':
 
     # now add all the config to sacred
     ex.add_config(config_dict)
-
     # Save to disk by default for sacred
     map_name = parse_command(params, "env_args.map_name", config_dict['env_args']['map_name'])
-    algo_name = parse_command(params, "name", config_dict['name']) 
+    algo_name = parse_command(params, "name", config_dict['name'])
     file_obs_path = join(results_path, "sacred", map_name, algo_name)
-    
+
     logger.info("Saving to FileStorageObserver in {}.".format(file_obs_path))
     ex.observers.append(FileStorageObserver.create(file_obs_path))
 
