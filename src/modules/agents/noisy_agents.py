@@ -25,10 +25,10 @@ class NoisyRNNAgent(nn.Module):
         inputs = inputs.view(-1, e)
         x = F.relu(self.fc1(inputs), inplace=True)
         h_in = hidden_state.reshape(-1, self.args.rnn_hidden_dim)
-        h = self.rnn(x, h_in)
+        hh = self.rnn(x, h_in)
 
         if getattr(self.args, "use_layer_norm", False):
-            h = self.layer_norm(h)
+            h = self.layer_norm(hh)
         q = self.fc2(h)
 
-        return q.view(b, a, -1), h.view(b, a, -1)
+        return q.view(b, a, -1), hh.view(b, a, -1)

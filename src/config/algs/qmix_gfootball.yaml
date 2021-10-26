@@ -36,7 +36,7 @@ use_orthogonal: True
 gain: 0.01
 
 # rnn layer normalization
-use_layer_norm: False
+use_layer_norm: True
 
 # Priority experience replay
 use_per: True
