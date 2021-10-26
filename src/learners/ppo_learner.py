@@ -80,10 +80,14 @@ class PPOLearner:
                 values.append(agent_outs)
             values = th.stack(values, dim=1) 
 
+            # value clip
+            values_clipped = targets + (values - targets).clamp(-self.args.eps_clip,
+                                                                                self.args.eps_clip)
+
             # 0-out the targets that came from padded data
-            td_error = (values - targets.detach())
+            td_error = th.max((values - targets.detach())** 2, (values_clipped - targets.detach())** 2)
             masked_td_error = td_error * mask_agent
-            critic_loss = 0.5 * (masked_td_error ** 2).sum() / mask_agent.sum()
+            critic_loss = 0.5 * masked_td_error.sum() / mask_agent.sum()
 
             # Actor
             pi = []

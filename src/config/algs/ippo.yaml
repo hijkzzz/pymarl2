@@ -23,7 +23,7 @@ lr: 0.0005
 critic_coef: 0.5
 entropy: 0.01
 gae_lambda: 0.95
-mini_epochs: 5
+mini_epochs: 4
 eps_clip: 0.2
 save_probs: True
 
@@ -32,7 +32,7 @@ learner: "ppo_learner"
 
 # with value norm, layer_norm, orthogonal
 # but, without death agent mask, data chunk, value clip ...
-use_layer_norm: False
+use_layer_norm: True
 use_orthogonal: True
 gain: 0.01
 use_value_norm: True
