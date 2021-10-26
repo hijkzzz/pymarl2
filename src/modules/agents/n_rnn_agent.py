@@ -35,7 +35,8 @@ class NRNNAgent(nn.Module):
         hh = self.rnn(x, h_in)
 
         if getattr(self.args, "use_layer_norm", False):
-            h = self.layer_norm(hh)
-        q = self.fc2(h)
+            q = self.fc2(self.layer_norm(hh))
+        else:
+            q = self.fc2(hh)
 
         return q.view(b, a, -1), hh.view(b, a, -1)
