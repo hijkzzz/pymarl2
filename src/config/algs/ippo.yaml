@@ -23,7 +23,7 @@ lr: 0.0005
 critic_coef: 0.5
 entropy: 0.01
 gae_lambda: 0.95
-mini_epochs: 4
+mini_epochs: 5
 eps_clip: 0.2
 save_probs: True
 

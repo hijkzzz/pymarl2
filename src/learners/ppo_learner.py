@@ -110,7 +110,7 @@ class PPOLearner:
             entropy_loss = categorical_entropy(pi).mean(-1, keepdim=True) # mean over agents
             entropy_loss[mask == 0] = 0 # fill nan
             entropy_loss = (entropy_loss * mask).sum() / mask.sum()
-            loss = actor_loss + self.args.critic_coef * critic_loss - self.args.entropy * entropy_loss
+            loss = actor_loss + self.args.critic_coef * critic_loss - self.args.entropy * entropy_loss / entropy_loss.item()
 
             # Optimise agents
             self.optimiser.zero_grad()
