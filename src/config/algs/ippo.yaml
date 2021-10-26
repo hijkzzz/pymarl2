@@ -32,7 +32,7 @@ learner: "ppo_learner"
 
 # with value norm, layer_norm, orthogonal
 # but, without death agent mask, data chunk, value clip ...
-use_layer_norm: True
+use_layer_norm: False
 use_orthogonal: True
 gain: 0.01
 use_value_norm: True

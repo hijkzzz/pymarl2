@@ -10,7 +10,7 @@ epsilon_anneal_time: 100000
 
 runner: "parallel"
 batch_size_run: 8
-buffer_size: 5000
+buffer_size: 10000
 batch_size: 128
 
 t_max: 10050000
@@ -36,7 +36,7 @@ use_orthogonal: True
 gain: 0.01
 
 # rnn layer normalization
-use_layer_norm: True
+use_layer_norm: False
 
 # Priority experience replay
 use_per: True
