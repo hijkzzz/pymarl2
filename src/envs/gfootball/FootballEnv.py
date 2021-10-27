@@ -21,7 +21,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         map_name='academy_counterattack_hard',
         stacked=False,
         representation="simple115",
-        rewards='checkpoint,scoring',
+        rewards='checkpoints,scoring',
         logdir='football_dumps',
         write_video=False,
         number_of_right_players_agent_controls=0,
@@ -80,7 +80,7 @@ class GoogleFootballEnv(MultiAgentEnv):
             actions = _actions
         self.time_step += 1
         obs, rewards, done, infos = self.env.step(actions.tolist())
-
+        
         self.obs = obs
 
         if self.time_step >= self.episode_limit:
@@ -102,7 +102,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         return int(obs_size.prod())
 
     def get_global_state(self):
-        return self.obs[0]
+        return self.obs.flatten()
 
     def get_state(self):
         """Returns the global state."""
@@ -110,7 +110,7 @@ class GoogleFootballEnv(MultiAgentEnv):
 
     def get_state_size(self):
         """Returns the size of the global state."""
-        return self.get_obs_size()
+        return self.get_obs_size() * self.n_agents
 
     def get_avail_actions(self):
         """Returns the available actions of all agents in a list."""
