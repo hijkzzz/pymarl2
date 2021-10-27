@@ -3,7 +3,6 @@ from components.episode_buffer import EpisodeBatch
 from modules.mixers.nmix import Mixer
 from modules.mixers.vdn import VDNMixer
 from modules.mixers.qatten import QattenMixer
-from modules.mixers.mean_mix import MeanMixer
 from envs.matrix_game import print_matrix_status
 from utils.rl_utils import build_td_lambda_targets, build_q_lambda_targets
 import torch as th
@@ -27,8 +26,6 @@ class NQLearner:
             self.mixer = VDNMixer()
         elif args.mixer == "qmix":
             self.mixer = Mixer(args)
-        elif args.mixer == "mean": # for concatenate observations
-            self.mixer = MeanMixer(args)
         else:
             raise "mixer error"
         self.target_mixer = copy.deepcopy(self.mixer)
@@ -50,9 +47,6 @@ class NQLearner:
         # priority replay
         self.use_per = getattr(self.args, 'use_per', False)
         self.return_priority = getattr(self.args, "return_priority", False)
-        if self.use_per:
-            self.priority_max = float('-inf')
-            self.priority_min = float('inf')
         
     def train(self, batch: EpisodeBatch, t_env: int, episode_num: int, per_weight=None):
         # Get the relevant quantities
@@ -150,14 +144,6 @@ class NQLearner:
         info = {}
         # calculate priority
         if self.use_per:
-            if self.return_priority:
-                info["td_errors_abs"] = rewards.sum(1).detach().to('cpu')
-                # normalize to [0, 1]
-                self.priority_max = max(th.max(info["td_errors_abs"]).item(), self.priority_max)
-                self.priority_min = min(th.min(info["td_errors_abs"]).item(), self.priority_min)
-                info["td_errors_abs"] = (info["td_errors_abs"] - self.priority_min) \
-                                / (self.priority_max - self.priority_min + 1e-5)
-            else:
                 info["td_errors_abs"] = ((td_error.abs() * mask).sum(1) \
                                 / th.sqrt(mask.sum(1))).detach().to('cpu')
         return info

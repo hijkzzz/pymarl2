@@ -10,10 +10,10 @@ mask_before_softmax: True
 
 runner: "parallel"
 
-buffer_size: 64
+buffer_size: 32
 batch_size_run: 8
-batch_size: 64
-accumulated_episodes: 8
+batch_size: 32
+accumulated_episodes: 4
 
 mac: 'basic_mac'
 agent: 'n_rnn'
@@ -25,7 +25,7 @@ lr: 0.0005
 critic_coef: 0.5
 entropy: 0.01
 gae_lambda: 0.95
-mini_epochs: 5
+mini_epochs: 4
 eps_clip: 0.2
 save_probs: True
 

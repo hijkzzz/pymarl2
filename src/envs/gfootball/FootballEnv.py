@@ -16,12 +16,12 @@ class GoogleFootballEnv(MultiAgentEnv):
         dump_freq=0,
         render=False,
         num_agents=4,
-        time_limit=150,
+        time_limit=200,
         time_step=0,
         map_name='academy_counterattack_hard',
         stacked=False,
         representation="simple115",
-        rewards='scoring',
+        rewards='checkpoint,scoring',
         logdir='football_dumps',
         write_video=False,
         number_of_right_players_agent_controls=0,
@@ -72,8 +72,6 @@ class GoogleFootballEnv(MultiAgentEnv):
         self.n_actions = self.action_space[0].n
         self.obs = None
 
-        self.win = -1
-
     def step(self, _actions):
         """Returns reward, terminated, info."""
         if th.is_tensor(_actions):
@@ -88,12 +86,6 @@ class GoogleFootballEnv(MultiAgentEnv):
         if self.time_step >= self.episode_limit:
             done = True
 
-        if sum(rewards) > 1e-6:
-            infos["score"] = 1.
-            self.win = 1
-        else:
-            infos["score"] = 0.
-            self.win = 0
         return sum(rewards), done, infos
 
     def get_obs(self):
@@ -110,7 +102,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         return int(obs_size.prod())
 
     def get_global_state(self):
-        return self.obs.flatten()
+        return self.obs[0]
 
     def get_state(self):
         """Returns the global state."""
@@ -118,7 +110,7 @@ class GoogleFootballEnv(MultiAgentEnv):
 
     def get_state_size(self):
         """Returns the size of the global state."""
-        return self.get_obs_size() * self.n_agents
+        return self.get_obs_size()
 
     def get_avail_actions(self):
         """Returns the available actions of all agents in a list."""
@@ -153,8 +145,4 @@ class GoogleFootballEnv(MultiAgentEnv):
         pass
 
     def get_stats(self):
-        assert self.win != -1
-        stats = {
-            "game_win": self.win,
-        }
-        return  stats
+        return  {}

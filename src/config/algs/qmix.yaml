@@ -31,4 +31,11 @@ td_lambda: 0.6 # 0.3 for 6h_vs_8z
 optimizer: 'adam'
 q_lambda: False
 
+# rnn layer normalization
+use_layer_norm: False
+
+# orthogonal init for DNN
+use_orthogonal: False
+gain: 0.01
+
 name: "qmix_env=8_adam_td_lambda"
