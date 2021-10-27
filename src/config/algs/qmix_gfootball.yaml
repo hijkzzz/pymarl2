@@ -40,7 +40,7 @@ use_layer_norm: True
 
 # Priority experience replay
 use_per: False
-per_alpha: 
+per_alpha: 0.6
 per_beta: 0.4
 return_priority: False
 
