@@ -81,15 +81,14 @@ class GoogleFootballEnv(MultiAgentEnv):
         else:
             actions = _actions
         self.time_step += 1
-        obs, original_rewards, done, infos = self.env.step(actions.tolist())
+        obs, rewards, done, infos = self.env.step(actions.tolist())
 
-        rewards = list(original_rewards)
         self.obs = obs
 
         if self.time_step >= self.episode_limit:
             done = True
 
-        if  sum(rewards) > 1e-6:
+        if sum(rewards) > 1e-6:
             infos["score"] = 1.
             self.win = 1
         else:
