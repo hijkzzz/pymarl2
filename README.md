@@ -7,7 +7,7 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
-2021.10.26 update: add Google Football Environments [qmix_gfootball.yaml] (Insufficient testing).
+2021.10.28 update: add Google Football Environments [vdn_gfootball.yaml] (Insufficient testing).
 
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
@@ -146,7 +146,7 @@ python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o
 ```shell
 # For Google Football (Insufficient testing)
 # map_name: academy_counterattack_easy, academy_counterattack_hard, five_vs_five...
-python3 src/main.py --config=qmix_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard
+python3 src/main.py --config=vdn_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard env_args.num_agents=4
 ```
 
 

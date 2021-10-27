@@ -21,7 +21,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         map_name='academy_counterattack_hard',
         stacked=False,
         representation="simple115",
-        rewards='checkpoints,scoring',
+        rewards='scoring,checkpoints',
         logdir='football_dumps',
         write_video=False,
         number_of_right_players_agent_controls=0,
