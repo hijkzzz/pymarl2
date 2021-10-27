@@ -3,7 +3,7 @@ from components.episode_buffer import EpisodeBatch
 from modules.mixers.nmix import Mixer
 from modules.mixers.vdn import VDNMixer
 from modules.mixers.qatten import QattenMixer
-from modules.mixers.conv_mix import ConvMixer
+from modules.mixers.mean_mix import MeanMixer
 from envs.matrix_game import print_matrix_status
 from utils.rl_utils import build_td_lambda_targets, build_q_lambda_targets
 import torch as th
@@ -27,8 +27,8 @@ class NQLearner:
             self.mixer = VDNMixer()
         elif args.mixer == "qmix":
             self.mixer = Mixer(args)
-        elif args.mixer == "conv":
-            self.mixer = ConvMixer(args)
+        elif args.mixer == "mean": # for concatenate observations
+            self.mixer = MeanMixer(args)
         else:
             raise "mixer error"
         self.target_mixer = copy.deepcopy(self.mixer)

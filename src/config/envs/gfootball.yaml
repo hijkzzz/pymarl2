@@ -28,6 +28,7 @@ env: gfootball
 env_args:
   map_name: "academy_counterattack_hard"
   num_agents: 4
+  time_limit: 150
 
 test_greedy: True
 test_nepisode: 32

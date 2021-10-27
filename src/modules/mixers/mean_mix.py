@@ -3,21 +3,19 @@ import torch.nn as nn
 import torch.nn.functional as F
 import numpy as np
 from utils.th_utils import orthogonal_init_
-from torch.nn import LayerNorm
+from modules.layer.self_atten import SelfAttention
 
-class ConvMixer(nn.Module):
+# for for concatenate observations
+class MeanMixer(nn.Module):
     def __init__(self, args, abs=True):
-        super(ConvMixer, self).__init__()
+        super(MeanMixer, self).__init__()
 
         self.args = args
         self.abs = abs
         self.n_agents = args.n_agents
         self.embed_dim = args.mixing_embed_dim
         self.obs_dim = int(np.prod(args.state_shape)) // self.n_agents
-
-        # conv1d encoding
-        self.conv1d = nn.Conv1d(self.obs_dim, args.hypernet_embed, 3, padding="same")
-        self.input_dim = args.hypernet_embed * self.n_agents
+        self.input_dim = args.att_heads *  args.att_embed_dim
         
         # hyper w1 b1
         self.hyper_w1 = nn.Sequential(nn.Linear(self.input_dim, args.hypernet_embed),
@@ -37,6 +35,9 @@ class ConvMixer(nn.Module):
             for m in self.modules():
                 orthogonal_init_(m)
 
+        # attention encoding
+        self.att = SelfAttention(self.obs_dim, args.att_heads, args.att_embed_dim)
+
     def forward(self, qvals, states):
         # reshape
         b, t, _ = qvals.size()
@@ -44,9 +45,9 @@ class ConvMixer(nn.Module):
         qvals = qvals.reshape(b * t, 1, self.n_agents)
         states = states.reshape(-1, self.n_agents, self.obs_dim)
 
-        # Conv1d
-        states = self.conv1d(states).view(b, -1)
-        states = F.relu(states, inplace=True)
+        # ATT
+        states = self.att(states).view(b * t, self.n_agents, -1)
+        states = F.relu(states.mean(1), inplace=True)
 
         # First layer
         w1 = self.hyper_w1(states).view(-1, self.n_agents, self.embed_dim) # b * t, n_agents, emb

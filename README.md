@@ -145,8 +145,7 @@ python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o
 
 ```shell
 # For Google Football (Insufficient testing)
-# The scenarios used here use only victory or defeat as the rewards (i.e, sparse reward).
-# map_name: academy_counterattack_easy, academy_counterattack_hard, five_vs_five
+# map_name: academy_counterattack_easy, academy_counterattack_hard, five_vs_five...
 python3 src/main.py --config=qmix_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard
 ```
 
