@@ -80,7 +80,7 @@ class GoogleFootballEnv(MultiAgentEnv):
             actions = _actions
         self.time_step += 1
         obs, rewards, done, infos = self.env.step(actions.tolist())
-        
+
         self.obs = obs
 
         if self.time_step >= self.episode_limit:

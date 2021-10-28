@@ -1,4 +1,4 @@
-# --- VDN specific parameters ---
+#--- VDN specific parameters ---
 
 # use epsilon greedy action selector
 action_selector: "epsilon_greedy"
@@ -27,6 +27,7 @@ mixer: "vdn"
 lr: 0.001 # Learning rate for agents
 td_lambda: 0.5
 optimizer: 'adam'
+gamma: 0.999
 
 # orthogonal init for DNN
 use_orthogonal: True
