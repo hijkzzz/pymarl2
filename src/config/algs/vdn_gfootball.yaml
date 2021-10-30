@@ -1,4 +1,5 @@
 #--- VDN specific parameters ---
+# Monte Carlo Q_tot Learning
 
 # use epsilon greedy action selector
 action_selector: "epsilon_greedy"
@@ -7,14 +8,14 @@ epsilon_finish: 0.05
 epsilon_anneal_time: 100000
 
 runner: "parallel"
-batch_size_run: 8
-buffer_size: 2500
-batch_size: 64
+batch_size_run: 16
+buffer_size: 2000
+batch_size: 128
 
 t_max: 10050000
 
 # update the target network every {} episodes
-target_update_interval: 200
+target_update_interval: 1
 
 # use the Q_Learner to train
 mac: "n_mac"
@@ -25,9 +26,9 @@ rnn_hidden_dim: 256
 learner: "nq_learner"
 mixer: "vdn"
 lr: 0.001 # Learning rate for agents
-td_lambda: 0.8
+td_lambda: 1.0
 optimizer: 'adam'
-gamma: 0.993
+gamma: 0.999
 
 # orthogonal init for DNN
 use_orthogonal: True
