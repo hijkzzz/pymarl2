@@ -8,8 +8,8 @@ epsilon_anneal_time: 100000
 
 runner: "parallel"
 batch_size_run: 8
-buffer_size: 5000
-batch_size: 128
+buffer_size: 2500
+batch_size: 64
 
 t_max: 10050000
 
@@ -20,7 +20,7 @@ target_update_interval: 200
 mac: "n_mac"
 agent: "n_rnn" 
 agent_output_type: q
-rnn_hidden_dim: 128
+rnn_hidden_dim: 256
 
 learner: "nq_learner"
 mixer: "vdn"
