@@ -27,7 +27,7 @@ fi
 wget https://github.com/oxwhirl/smac/releases/download/v0.1-beta1/SMAC_Maps.zip
 unzip SMAC_Maps.zip
 
-cp -r "$smac_maps/*" ./SMAC_Maps 
+cp -r $smac_maps/* ./SMAC_Maps 
 mv SMAC_Maps $MAP_DIR
 rm -rf SMAC_Maps.zip
 
