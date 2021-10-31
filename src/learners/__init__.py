@@ -9,6 +9,7 @@ from .max_q_learner import MAXQLearner
 from .dmaq_qatten_learner import DMAQ_qattenLearner
 from .offpg_learner import OffPGLearner
 from .fmac_learner import FMACLearner
+from .online_q_learner import OnlineQLearner
 
 REGISTRY = {}
 
@@ -23,3 +24,4 @@ REGISTRY["max_q_learner"] = MAXQLearner
 REGISTRY["dmaq_qatten_learner"] = DMAQ_qattenLearner
 REGISTRY["offpg_learner"] = OffPGLearner
 REGISTRY["fmac_learner"] = FMACLearner
+REGISTRY["online_q_learner"] = OnlineQLearner

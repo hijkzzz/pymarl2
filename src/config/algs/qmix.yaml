@@ -38,4 +38,10 @@ use_layer_norm: False
 use_orthogonal: False
 gain: 0.01
 
+# Priority experience replay
+use_per: False
+per_alpha: 0.6
+per_beta: 0.4
+return_priority: False
+
 name: "qmix_env=8_adam_td_lambda"

@@ -65,7 +65,8 @@ class PPOLearner:
 
             if self.use_value_norm:
                 targets_shape = targets.shape
-                self.value_norm.update(targets.view(-1))
+                targets = targets.reshape(-1)
+                self.value_norm.update(targets)
                 targets = self.value_norm.normalize(targets).view(targets_shape)
         
         advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-6)

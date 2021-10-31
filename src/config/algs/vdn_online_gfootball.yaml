@@ -9,13 +9,11 @@ epsilon_anneal_time: 100000
 
 runner: "parallel"
 batch_size_run: 16
-buffer_size: 2000
-batch_size: 128
+buffer_size: 64
+batch_size: 64
+accumulated_episodes: 4
 
 t_max: 10050000
-
-# update the target network every {} episodes
-target_update_interval: 1
 
 # use the Q_Learner to train
 mac: "n_mac"
@@ -23,12 +21,17 @@ agent: "n_rnn"
 agent_output_type: q
 rnn_hidden_dim: 256
 
-learner: "nq_learner"
+learner: "online_q_learner"
 mixer: "vdn"
-lr: 0.001 # Learning rate for agents
+lr: 0.0005 # Learning rate for agents
 td_lambda: 0.95
 optimizer: 'adam'
 gamma: 0.999
+mini_epochs: 5
+eps_clip: 0.2
+
+# value normalization
+use_value_norm: True
 
 # orthogonal init for DNN
 use_orthogonal: True
@@ -37,10 +40,4 @@ gain: 0.01
 # rnn layer normalization
 use_layer_norm: True
 
-# Priority experience replay
-use_per: False
-per_alpha: 0.6
-per_beta: 0.4
-return_priority: True
-
-name: "vdn_env=16_adam_td_lambda"
+name: "vdn_online_env=16_adam_td_lambda"
