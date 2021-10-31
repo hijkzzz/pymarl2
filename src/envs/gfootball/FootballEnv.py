@@ -90,11 +90,11 @@ class GoogleFootballEnv(MultiAgentEnv):
 
     def get_obs(self):
         """Returns all agent observations in a list."""
-        return self.obs
+        return self.obs.reshape(self.n_agents, -1)
 
     def get_obs_agent(self, agent_id):
         """Returns observation for agent_id."""
-        return self.obs[agent_id]
+        return self.obs[agent_id].reshape(-1)
 
     def get_obs_size(self):
         """Returns the size of the observation."""
@@ -129,7 +129,7 @@ class GoogleFootballEnv(MultiAgentEnv):
         self.time_step = 0
         self.obs = self.env.reset()
 
-        return self.obs, self.get_global_state()
+        return self.get_obs(), self.get_global_state()
 
     def render(self):
         pass

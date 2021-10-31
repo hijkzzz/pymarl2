@@ -20,6 +20,7 @@ target_update_interval: 200
 mac: "conv_mac"
 agent: "conv_agent"
 agent_output_type: q
+rnn_hidden_dim: 128
 
 learner: "nq_learner"
 mixer: "qmix"

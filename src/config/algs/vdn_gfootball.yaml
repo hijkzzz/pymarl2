@@ -6,13 +6,14 @@ action_selector: "epsilon_greedy"
 epsilon_start: 1.0
 epsilon_finish: 0.05
 epsilon_anneal_time: 100000
+test_noise: 0.01
 
 runner: "parallel"
 batch_size_run: 16
-buffer_size: 2000
+buffer_size: 2500
 batch_size: 128
 
-t_max: 10050000
+t_max: 20050000
 
 # update the target network every {} episodes
 target_update_interval: 1
@@ -43,4 +44,4 @@ per_alpha: 0.6
 per_beta: 0.4
 return_priority: True
 
-name: "vdn_env=8_adam_td_lambda"
+name: "vdn_env=16_adam_td_lambda"

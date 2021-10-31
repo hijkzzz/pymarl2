@@ -6,11 +6,14 @@ class ConvAgent(nn.Module):
     def __init__(self, input_shape, args):
         super(ConvAgent, self).__init__()
         self.args = args
+        self.hidden_dim = self.args.rnn_hidden_dim
 
-        self.conv1 = nn.Conv1d(input_shape, 64, 2)
-        self.conv2 = nn.Conv1d(64, 128, 3)
-        self.fc1 = nn.Linear(128, 128)
-        self.fc2 = nn.Linear(128, args.n_actions)
+        self.conv1 = nn.Conv1d(input_shape, self.hidden_dim, 2)
+        self.conv2 = nn.Conv1d(self.hidden_dim, self.hidden_dim, 3)
+        self.linear_hidden_dim = (self.args.frames - 3) * self.hidden_dim
+
+        self.fc1 = nn.Linear(self.linear_hidden_dim, self.hidden_dim)
+        self.fc2 = nn.Linear(self.hidden_dim, args.n_actions)
 
     def init_hidden(self):
         return None
@@ -21,7 +24,7 @@ class ConvAgent(nn.Module):
         
         x = F.relu(self.conv1(inputs), inplace=True)
         x = F.relu(self.conv2(x), inplace=True)
-        x = x.view(b, a, 128)
+        x = x.view(b, a, self.linear_hidden_dim)
         x = F.relu(self.fc1(x), inplace=True)
         q = self.fc2(x)
         

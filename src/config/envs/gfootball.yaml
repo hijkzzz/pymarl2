@@ -27,6 +27,7 @@ env: gfootball
 
 env_args:
   map_name: "academy_counterattack_hard"
+  representation: "simple115"
   num_agents: 4
   time_limit: 150
 
