@@ -1,6 +1,6 @@
 
 # PyMARL2
-Open-source code for [Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479).
+Open-source code for [Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479).
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
 
@@ -176,8 +176,8 @@ bash clean.sh
 
 # Citation
 ```
-@article{hu2021revisiting,
-      title={Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
+@article{hu2021rethinking,
+      title={Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
       author={Jian Hu and Siyang Jiang and Seth Austin Harding and Haibin Wu and Shih-wei Liao},
       year={2021},
       eprint={2102.03479},
