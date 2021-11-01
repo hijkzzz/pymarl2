@@ -27,7 +27,7 @@ lr: 0.0005 # Learning rate for agents
 td_lambda: 0.95
 optimizer: 'adam'
 gamma: 0.999
-mini_epochs: 5
+mini_epochs: 8
 eps_clip: 0.2
 
 # value normalization
