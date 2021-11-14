@@ -34,4 +34,4 @@ lambd: 0.6
 entropy_coef: 0.03
 optimizer: 'adam'
 
-name: "rmc_online_env=8_adam_td_lambda"
+name: "riit_online_env=8_adam_td_lambda"

@@ -18,12 +18,13 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - Reward scaling
 - Orthogonal initialization and layer scaling
 - **Adam** 
+- **Neural networks hidden size**
 - learning rate annealing
 - Reward Clipping
 - Observation Normalization
 - Gradient Clipping
 - **Large Batch Size**
-- **N-step Returns(including GAE($\lambda$) and Q($\lambda$))**
+- **N-step Returns(including GAE($\lambda$) and Q($\lambda$) ...)**
 - **Rollout Process Number**
 - **$\epsilon$-greedy annealing steps**
 - Death Agent Masking
@@ -50,17 +51,17 @@ Using a few of tricks above (bold texts), we enabled QMIX (qmix.yaml) to solve a
 | 2c_vs_64zg   |    Hard    |**100\%**|          **100\%**          |
 | corridor       | Super Hard |       0%      |          **100\%**          |
 | MMM2           | Super Hard |      98%      |          **100\%**          |
-| 3s5z_vs_3s6z | Super Hard |       3%      |**85\%**(Number of Envs = 4) |
+| 3s5z_vs_3s6z | Super Hard |       3%      |**93\%**(hidden_size = 256, qmix_large.yaml) |
 | 27m_vs_30m   | Super Hard |      56%      |          **100\%**          |
 | 6h_vs_8z     | Super Hard |       0%      |  **93\%**($\lambda$ = 0.3)  |
 
 
 ## Re-Evaluation
-Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **genaral** set of hyperparameters), and find that QMIX achieves the SOTA. 
+Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **general** set of hyperparameters), and find that QMIX achieves the SOTA. 
 
 | Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
 |----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
-|                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RMC      |
+|                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RIIT      |
 | 2c_vs_64zg   | Hard           |  **100%** | **100%** |  **100%** | **100%** |      93%      | **100%** |  98%  |  84%  | **100%** |
 | 8m_vs_9m     | Hard           |  **100%** | **100%** |  **100%** |      95%      |      90%      |      48%      |  75%  |  96%  |      95%      |
 | 3s_vs_5z     | Hard           |  **100%** | **100%** | **100%** | **100%** | **100%** |       3%      |  96%  |   **100%**  |      96%      |
@@ -102,7 +103,7 @@ Actor Critic Methods:
 - [**VMIX**: Value-Decomposition Multi-Agent Actor-Critics](https://arxiv.org/abs/2007.12306)
 - [**LICA**: Learning Implicit Credit Assignment for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2007.02529)
 - [**DOP**: Off-Policy Multi-Agent Decomposed Policy Gradients](https://arxiv.org/abs/2007.12322)
-- [**RMC**: Revisiting the Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479)
+- [**RIIT**: Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning.](https://arxiv.org/abs/2102.03479)
 
 ## Installation instructions
 

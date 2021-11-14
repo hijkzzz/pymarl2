@@ -39,4 +39,4 @@ entropy_coef: 0.03
 optimizer: 'adam'
 abs: True # monotonicity condition
 
-name: "rmc_env=8_adam_td_lambda"
+name: "riit_env=8_adam_td_lambda"
