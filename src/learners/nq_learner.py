@@ -6,7 +6,7 @@ from modules.mixers.qatten import QattenMixer
 from envs.matrix_game import print_matrix_status
 from utils.rl_utils import build_td_lambda_targets, build_q_lambda_targets
 import torch as th
-from torch.optim import RMSprop, AdamW
+from torch.optim import RMSprop, Adam
 import numpy as np
 from utils.th_utils import get_parameters_num
 
@@ -35,7 +35,7 @@ class NQLearner:
         print(get_parameters_num(self.mixer.parameters()))
 
         if self.args.optimizer == 'adam':
-            self.optimiser = AdamW(params=self.params,  lr=args.lr, weight_decay=getattr(args, 'weight_decay', 0))
+            self.optimiser = Adam(params=self.params,  lr=args.lr, weight_decay=getattr(args, "weight_decay", 0))
         else:
             self.optimiser = RMSprop(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
 
