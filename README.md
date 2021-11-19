@@ -90,6 +90,7 @@ We also tested VDN (vdn_gfootball.yaml) on some maps (from [Google Football](htt
 | Senarios     | Difficulty |      VDN ($\lambda=1.0$)   |
 |----------------|:----------:|:--------------:|
 | academy_counterattack_hard | - |       0.71 (Test Score) |
+| academy_counterattack_easy | - |       0.9 (Test Score) |
 
 # Usage
 
