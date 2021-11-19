@@ -7,7 +7,7 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
-2021.10.28 update: add Google Football Environments [vdn_gfootball.yaml] (Insufficient testing).
+2021.10.28 update: add Google Football Environments [vdn_gfootball.yaml] (use `simple115 features`).
 
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
@@ -82,6 +82,14 @@ We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\
 | 1o_10b_vs_1r | - |       56%      |**87\%** |
 | 1o_2r_vs_4r    | - |      50%      |          **95\%**          |
 | bane_vs_hM     | - |       0%      |  **0\%**  |
+
+
+##  Google Football
+We also tested VDN (vdn_gfootball.yaml) on some maps (from [Google Football](https://github.com/google-research/football)). Specially, we use `simple115 features` to train the model (The Google Football original paper use complex `CNN features`). We did not test QMIX because this environment does not provide global status information.
+
+| Senarios     | Difficulty |      VDN ($\lambda=1.0$)   |
+|----------------|:----------:|:--------------:|
+| academy_counterattack_hard | - |       0.71 (Test Score) |
 
 # Usage
 
