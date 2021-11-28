@@ -65,7 +65,7 @@ class MAXQLearner:
         print('Mixer Size: ')
         print(get_parameters_num(list(self.mixer.parameters()) + list(self.central_mixer.parameters())))
 
-        self.optimiser = Adam(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
+        self.optimiser = Adam(params=self.params, lr=args.lr)
 
         self.log_stats_t = -self.args.learner_log_interval - 1
 
