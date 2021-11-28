@@ -6,5 +6,5 @@
 
 conda install pytorch torchvision cudatoolkit=11.0 -c pytorch -y
 pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn \
-    pyyaml pygame pytest probscale imageio snakeviz tensorboard-logger
+    pyyaml==5.3.1 pygame pytest probscale imageio snakeviz tensorboard-logger
 pip install git+https://github.com/oxwhirl/smac.git
