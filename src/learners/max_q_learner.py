@@ -5,7 +5,7 @@ from modules.mixers.qmix import QMixer
 from modules.mixers.qmix_central_no_hyper import QMixerCentralFF
 from utils.rl_utils import build_td_lambda_targets
 import torch as th
-from torch.optim import RMSprop
+from torch.optim import RMSprop, Adam
 from collections import deque
 from controllers import REGISTRY as mac_REGISTRY
 from utils.th_utils import get_parameters_num
@@ -65,7 +65,7 @@ class MAXQLearner:
         print('Mixer Size: ')
         print(get_parameters_num(list(self.mixer.parameters()) + list(self.central_mixer.parameters())))
 
-        self.optimiser = RMSprop(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
+        self.optimiser = Adam(params=self.params, lr=args.lr, alpha=args.optim_alpha, eps=args.optim_eps)
 
         self.log_stats_t = -self.args.learner_log_interval - 1
 
