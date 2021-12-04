@@ -100,9 +100,8 @@ class PGLearner_v2:
         q_outs = th.stack(q_outs, dim=1)  # Concat over time
 
         # Mask out unavailable actions, renormalise (as in action selection)
-        mac_out[avail_actions == 0] = 0
-        mac_out = mac_out/mac_out.sum(dim=-1, keepdim=True)
-        mac_out[avail_actions == 0] = 0
+        # mac_out[avail_actions == 0] = 0
+        # mac_out = mac_out/(mac_out.sum(dim=-1, keepdim=True) + 1e-5)
 
         # Calculated baseline
         pi = mac_out[:, :-1]  #[bs, t, n_agents, n_actions]
