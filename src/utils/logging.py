@@ -27,9 +27,9 @@ class Logger:
         self.use_sacred = True
 
     def setup_wandb(self, config):
-        wandb.init(project=config.project, entity=config.entity, group=config.group, name=config.tag)
+        wandb.init(project=config.project, entity=config.entity, group=config.group, name=config.tag, config=config.__dict__)
         wandb.config = config
-        # setup a custom step metric so that we can track 
+        # setup a custom step metric so that we can track
         # environment steps instead of wandb internal episodes
         wandb.define_metric("train/step")
         wandb.define_metric("train/*", step_metric="train/step")
@@ -85,4 +85,3 @@ def get_logger():
     logger.setLevel('DEBUG')
 
     return logger
-

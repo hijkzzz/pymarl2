@@ -1,18 +1,25 @@
 #!/bin/bash
 # Install SC2 and add the custom maps
 
-pymarl_dir=$HOME/src/pymarl2
-cd $pymarl_dir/3rdparty/
-smac_maps=$pymarl_dir/smac_maps
+if [ -z "$EXP_DIR" ]
+then
+    EXP_DIR=~
+fi
 
-export SC2PATH="$HOME/src/pymarl2/3rdparty/StarCraftII"
+echo "EXP_DIR: $EXP_DIR"
+cd $EXP_DIR/pymarl
+
+mkdir 3rdparty
+cd 3rdparty
+
+export SC2PATH=`pwd`'/StarCraftII'
 echo 'SC2PATH is set to '$SC2PATH
 
 if [ ! -d $SC2PATH ]; then
         echo 'StarCraftII is not installed. Installing now ...';
         wget http://blzdistsc2-a.akamaihd.net/Linux/SC2.4.10.zip
         unzip -P iagreetotheeula SC2.4.10.zip
-        rm -f SC2.4.10.zip
+        rm -rf SC2.4.10.zip
 else
         echo 'StarCraftII is already installed.'
 fi
@@ -28,10 +35,8 @@ fi
 cd ..
 wget https://github.com/oxwhirl/smac/releases/download/v0.1-beta1/SMAC_Maps.zip
 unzip SMAC_Maps.zip
-
-cp -r "$smac_maps/*.SC2Map" ./SMAC_Maps 
 mv SMAC_Maps $MAP_DIR
-rm -f SMAC_Maps.zip
-
+rm -rf SMAC_Maps.zip
 
 echo 'StarCraft II and SMAC are installed.'
+

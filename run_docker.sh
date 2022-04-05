@@ -1,6 +1,6 @@
 #!/bin/bash
 HASH=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 4 | head -n 1)
-WANDB_API_KEY=$(cat $HOME/.netrc | grep 'password' | awk '{print $2}')
+WANDB_API_KEY=$(cat $WANDB_API_KEY_FILE)
 GPU=$1
 name=${USER}_pymarl_GPU_${GPU}_${HASH}
 

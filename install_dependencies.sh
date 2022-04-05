@@ -4,6 +4,6 @@
 # conda create -n pymarl python=3.7 -y
 # conda activate pymarl
 
-conda install pytorch torchvision cudatoolkit=9.0 -c pytorch -y
-pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn pyyaml pygame pytest probscale imageio snakeviz tensorboard-logger
+pip install --ignore-installed six
+pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn pyyaml pygame pytest probscale imageio snakeviz tensorboard-logger wandb
 pip install git+https://github.com/oxwhirl/smac.git
