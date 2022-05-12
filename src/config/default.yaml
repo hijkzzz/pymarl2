@@ -19,7 +19,7 @@ buffer_cpu_only: True # If true we won't keep all of the replay buffer in vram
 # --- Logging options ---
 use_tensorboard: False # Log results to tensorboard
 use_wandb: true
-project: "smac_v2"
+project: "smac_v2_hyperparams"
 entity: "oxwhirl"
 group: "ungrouped"
 save_model: False # Save the models to disk
