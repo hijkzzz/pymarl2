@@ -25,6 +25,7 @@ env_args:
   replay_prefix: ""
   conic_fov: True
   num_fov_actions: 12
+  obs_own_pos: True
   capability_config:
     n_units: 5
     team_gen:

@@ -25,14 +25,19 @@ env_args:
   replay_prefix: ""
   conic_fov: True
   num_fov_actions: 12
+  obs_own_pos: True
   capability_config:
     n_units: 5
     team_gen:
-      dist_type: "all_teams"
+      dist_type: "weighted_teams"
       unit_types: 
         - "stalker"
         - "zealot"
         - "colossus"
+      weights:
+        - 0.45
+        - 0.45
+        - 0.1
       observe: True
     start_positions:
       dist_type: "surrounded_and_reflect"
