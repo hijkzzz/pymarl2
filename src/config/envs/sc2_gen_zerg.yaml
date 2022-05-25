@@ -29,11 +29,17 @@ env_args:
   capability_config:
     n_units: 5
     team_gen:
-      dist_type: "all_teams"
+      dist_type: "weighted_teams"
       unit_types: 
         - "zergling"
         - "baneling"
         - "hydralisk"
+      weights:
+        - 0.45
+        - 0.1
+        - 0.45
+      exception_unit_types:
+        - "baneling"
       observe: True
 
     start_positions:
