@@ -8,7 +8,7 @@ the [smacv2 repo](https://github.com/oxwhirl/smacv2).
 4. Run the `run_exp.sh` script.
 
 # Citation
-This repository has very few changes from previous QMIX work, except that it runs on SMACv2. The original repository is (here)[https://github.com/hijkzzz/pymarl2].
+This repository has very few changes from previous QMIX work, except that it runs on SMACv2. The original repository is [here](https://github.com/hijkzzz/pymarl2).
 
 ```
 @article{hu2021revisiting,
