@@ -11,8 +11,9 @@ from .stag_hunt import StagHunt
 try:
     gfootball = True
     from .gfootball import GoogleFootballEnv
-except:
+except Exception as e:
     gfootball = False
+    print(e)
 
 def env_fn(env, **kwargs) -> MultiAgentEnv:
     return env(**kwargs)
