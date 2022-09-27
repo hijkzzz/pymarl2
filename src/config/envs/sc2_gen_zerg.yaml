@@ -30,6 +30,7 @@ env_args:
   obs_own_pos: True
   capability_config:
     n_units: 5
+    n_enemies: 5
     team_gen:
       dist_type: "weighted_teams"
       unit_types: 
