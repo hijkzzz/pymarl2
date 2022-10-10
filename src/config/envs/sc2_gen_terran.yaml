@@ -48,7 +48,6 @@ env_args:
     start_positions:
       dist_type: "surrounded_and_reflect"
       p: 0.5
-      n_enemies: 5
       map_x: 32
       map_y: 32
     # enemy_mask:
