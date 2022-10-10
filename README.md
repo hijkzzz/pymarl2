@@ -1,4 +1,8 @@
-> If you want high sample efficiency, please use qmix_high_sample_efficiency.yaml, which uses 4 processes for training, slower but higher sample efficiency.
+```diff
+- If you want high sample efficiency, please use qmix_high_sample_efficiency.yaml
+- which uses 4 processes for training, slower but higher sample efficiency.
+- Performance is *not* comparable of models trained with different number of processes. 
+```
 
 # PyMARL2
 
