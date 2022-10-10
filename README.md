@@ -1,5 +1,7 @@
+> If you want high sample efficiency, please use qmix_high_sample_efficiency.yaml, which uses 4 processes for training, slower but higher sample efficiency.
 
 # PyMARL2
+
 Open-source code for [Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/2102.03479).
 
 This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For other multi-agent tasks, we also recommend an optimized implementation of QMIX: https://github.com/marlbenchmark/off-policy.
@@ -7,17 +9,22 @@ This repository is fine-tuned for StarCraft Multi-agent Challenge (SMAC). For ot
 **StarCraft 2 version: SC2.4.10. difficulty: 7.**
 
 ```
+2022.10.10 update: add qmix_high_sample_efficiency.yaml, which uses 4 processes for training, slower but higher sample efficiency.
+
 2021.10.28 update: add Google Football Environments [vdn_gfootball.yaml] (use `simple115 features`).
 
 2021.10.4 update: add QMIX with attention (qmix_att.yaml) as a baseline for Communication tasks.
 ```
+
 ## Finetuned-QMIX
+
 There are so many code-level tricks in the  Multi-agent Reinforcement Learning (MARL), such as:
+
 - Value function clipping (clip max Q values for QMIX)
 - Value Normalization
 - Reward scaling
 - Orthogonal initialization and layer scaling
-- **Adam** 
+- **Adam**
 - **Neural networks hidden size**
 - learning rate annealing
 - Reward Clipping
@@ -30,67 +37,68 @@ There are so many code-level tricks in the  Multi-agent Reinforcement Learning (
 - Death Agent Masking
 
 **Related Works**
+
 - Implementation Matters in Deep RL: A Case Study on PPO and TRPO
 - What Matters In On-Policy Reinforcement Learning? A Large-Scale Empirical Study
 - The Surprising Effectiveness of MAPPO in Cooperative, Multi-Agent Games
 
 Using a few of tricks above (bold texts), we enabled QMIX (qmix.yaml) to solve almost all hard scenarios of SMAC (Fine-tuned hyperparameters **for each scenarios**).
 
-
-| Senarios       | Difficulty |      QMIX (batch_size=128)      |               Finetuned-QMIX              |
-|----------------|:----------:|:--------------:|:----------------------------------:|
-| 8m    |    Easy    |      -      |           **100\%**          |
-| 2c_vs_1sc     |    Easy    |      -      |          **100\%**          |
-| 2s3z |    Easy    |-|          **100\%**          |
-| 1c3s5z   |    Easy    |-|          **100\%**          |
-| 3s5z       |  Easy |      -      |          **100\%**          |
-| 8m_vs_9m           |  Hard |      84%      |          **100\%**          |
-| 5m_vs_6m     |    Hard    |      84%      |           **90\%**          |
-| 3s_vs_5z     |    Hard    |      96%      |          **100\%**          |
-| bane_vs_bane |    Hard    |**100\%**|          **100\%**          |
-| 2c_vs_64zg   |    Hard    |**100\%**|          **100\%**          |
-| corridor       | Super Hard |       0%      |          **100\%**          |
-| MMM2           | Super Hard |      98%      |          **100\%**          |
-| 3s5z_vs_3s6z | Super Hard |       3%      |**93\%**(hidden_size = 256, qmix_large.yaml) |
-| 27m_vs_30m   | Super Hard |      56%      |          **100\%**          |
-| 6h_vs_8z     | Super Hard |       0%      |  **93\%**($\lambda$ = 0.3)  |
-
+| Senarios     | Difficulty | QMIX (batch_size=128) |                   Finetuned-QMIX                   |
+| ------------ | :--------: | :-------------------: | :------------------------------------------------: |
+| 8m           |    Easy    |           -           |                  **100\%**                  |
+| 2c_vs_1sc    |    Easy    |           -           |                  **100\%**                  |
+| 2s3z         |    Easy    |           -           |                  **100\%**                  |
+| 1c3s5z       |    Easy    |           -           |                  **100\%**                  |
+| 3s5z         |    Easy    |           -           |                  **100\%**                  |
+| 8m_vs_9m     |    Hard    |          84%          |                  **100\%**                  |
+| 5m_vs_6m     |    Hard    |          84%          |                   **90\%**                   |
+| 3s_vs_5z     |    Hard    |          96%          |                  **100\%**                  |
+| bane_vs_bane |    Hard    |    **100\%**    |                  **100\%**                  |
+| 2c_vs_64zg   |    Hard    |    **100\%**    |                  **100\%**                  |
+| corridor     | Super Hard |          0%          |                  **100\%**                  |
+| MMM2         | Super Hard |          98%          |                  **100\%**                  |
+| 3s5z_vs_3s6z | Super Hard |          3%          | **93\%**(hidden_size = 256, qmix_large.yaml) |
+| 27m_vs_30m   | Super Hard |          56%          |                  **100\%**                  |
+| 6h_vs_8z     | Super Hard |          0%          |         **93\%**($\lambda$ = 0.3)         |
 
 ## Re-Evaluation
-Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **general** set of hyperparameters), and find that QMIX achieves the SOTA. 
 
-| Scenarios      | Difficulty     |   Value-based   |                |                 |                |                |  Policy-based  |        |        |                |
-|----------------|----------------|:---------------:|:--------------:|:---------------:|:--------------:|:--------------:|:--------------:|--------|:------:|:--------------:|
-|                |                |       QMIX      |      VDNs      |      Qatten     |      QPLEX     |      WQMIX     |      LICA      |  VMIX  |   DOP  |       RIIT      |
-| 2c_vs_64zg   | Hard           |  **100%** | **100%** |  **100%** | **100%** |      **100%**       | **100%** |  98%  |  84%  | **100%** |
-| 8m_vs_9m     | Hard           |  **100%** | **100%** |  **100%** |      95%      |      95%      |      48%      |  75%  |  96%  |      95%      |
-| 3s_vs_5z     | Hard           |  **100%** | **100%** | **100%** | **100%** | **100%** |       96%      |  96%  |   **100%**  |      96%      |
-| 5m_vs_6m     | Hard           |  **90%**  |  **90%** |  **90%**  |  **90%** |  **90%** |      53%      |   9%  |   63%  |      67%      |
-| 3s5z_vs_3s6z | S-Hard         |  **75%**  |      43%      |       62%      |      68%      |       56%      |       0%      |  56%  |   0%  |  **75%** |
-| corridor       | S-Hard         |  **100%** |      98%      |  **100%** |      96%      |      96%      |       0%      |   0%  |   0%  | **100%** |
-| 6h_vs_8z     | S-Hard         |       84%      |  **87%** |       82%      |      78%      |      75%      |       4%      |  80%  |   0%  |      19%      |
-| MMM2           | S-Hard         |  **100%** |      96%      |  **100%** | **100%** |      96%      |       0%      |  70%  |   3%  | **100%** |
-| 27m_vs_30m   | S-Hard         |  **100%** | **100%** |  **100%** | **100%** |       **100%**      |       9%      |  93%  |   0%  |      93%      |
-| Discrete PP    | -              |   **40**   |       39       |        -        |       39       |       39       |       30       |   39   |   38   |       38       |
-| Avg. Score     | Hard+ | **94.9%** |     91.2%     |      92.7%     |     92.5%     |     90.5%     |     29.2%     | 67.4% | 44.1% |     84.0%     |
+Afterwards, we re-evaluate numerous QMIX variants with normalized the tricks (a **general** set of hyperparameters), and find that QMIX achieves the SOTA.
 
-##  Communication
-We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication. 
+| Scenarios    | Difficulty |   Value-based   |                |                |                |                |  Policy-based  |       |                |                |
+| ------------ | ---------- | :-------------: | :------------: | :------------: | :------------: | :------------: | :------------: | ----- | :------------: | :------------: |
+|              |            |      QMIX      |      VDNs      |     Qatten     |     QPLEX     |     WQMIX     |      LICA      | VMIX  |      DOP      |      RIIT      |
+| 2c_vs_64zg   | Hard       | **100%** | **100%** | **100%** | **100%** | **100%** | **100%** | 98%   |      84%      | **100%** |
+| 8m_vs_9m     | Hard       | **100%** | **100%** | **100%** |      95%      |      95%      |      48%      | 75%   |      96%      |      95%      |
+| 3s_vs_5z     | Hard       | **100%** | **100%** | **100%** | **100%** | **100%** |      96%      | 96%   | **100%** |      96%      |
+| 5m_vs_6m     | Hard       |  **90%**  | **90%** | **90%** | **90%** | **90%** |      53%      | 9%    |      63%      |      67%      |
+| 3s5z_vs_3s6z | S-Hard     |  **75%**  |      43%      |      62%      |      68%      |      56%      |       0%       | 56%   |       0%       | **75%** |
+| corridor     | S-Hard     | **100%** |      98%      | **100%** |      96%      |      96%      |       0%       | 0%    |       0%       | **100%** |
+| 6h_vs_8z     | S-Hard     |       84%       | **87%** |      82%      |      78%      |      75%      |       4%       | 80%   |       0%       |      19%      |
+| MMM2         | S-Hard     | **100%** |      96%      | **100%** | **100%** |      96%      |       0%       | 70%   |       3%       | **100%** |
+| 27m_vs_30m   | S-Hard     | **100%** | **100%** | **100%** | **100%** | **100%** |       9%       | 93%   |       0%       |      93%      |
+| Discrete PP  | -          |  **40**  |       39       |       -       |       39       |       39       |       30       | 39    |       38       |       38       |
+| Avg. Score   | Hard+      | **94.9%** |     91.2%     |     92.7%     |     92.5%     |     90.5%     |     29.2%     | 67.4% |     44.1%     |     84.0%     |
 
-| Senarios (200w steps)      | Difficulty |      Finetuned-QMIX (No Communication)      |            QMIX-with-attention ( Communication)             |
-|----------------|:----------:|:--------------:|:----------------------------------:|
-| 1o_10b_vs_1r | - |       56%      |**87\%** |
-| 1o_2r_vs_4r    | - |      50%      |          **95\%**          |
-| bane_vs_hM     | - |       0%      |  **0\%**  |
+## Communication
 
+We also tested our QMIX-with-attention (qmix_att.yaml, $\lambda=0.3$, attention\_heads=4) on some maps (from [NDQ](https://github.com/TonghanWang/NDQ)) that require communication.
 
-##  Google Football
+| Senarios (200w steps) | Difficulty | Finetuned-QMIX (No Communication) | QMIX-with-attention ( Communication) |
+| --------------------- | :--------: | :-------------------------------: | :----------------------------------: |
+| 1o_10b_vs_1r          |     -     |                56%                |            **87\%**            |
+| 1o_2r_vs_4r           |     -     |                50%                |            **95\%**            |
+| bane_vs_hM            |     -     |                0%                |            **0\%**            |
+
+## Google Football
+
 We also tested VDN (vdn_gfootball.yaml) on some maps (from [Google Football](https://github.com/google-research/football)). Specially, we use `simple115 features` to train the model (The Google Football original paper use complex `CNN features`). We did not test QMIX because this environment does not provide global status information.
 
-| Senarios     | Difficulty |      VDN ($\lambda=1.0$)   |
-|----------------|:----------:|:--------------:|
-| academy_counterattack_hard | - |       0.71 (Test Score) |
-| academy_counterattack_easy | - |       0.87 (Test Score) |
+| Senarios                   | Difficulty | VDN ($\lambda=1.0$) |
+| -------------------------- | :--------: | :-------------------: |
+| academy_counterattack_hard |     -     |   0.71 (Test Score)   |
+| academy_counterattack_easy |     -     |   0.87 (Test Score)   |
 
 # Usage
 
@@ -99,7 +107,7 @@ PyMARL is [WhiRL](http://whirl.cs.ox.ac.uk)'s framework for deep multi-agent rei
 Value-based Methods:
 
 - [**QMIX**: QMIX: Monotonic Value Function Factorisation for Deep Multi-Agent Reinforcement Learning](https://arxiv.org/abs/1803.11485)
-- [**VDN**: Value-Decomposition Networks For Cooperative Multi-Agent Learning](https://arxiv.org/abs/1706.05296) 
+- [**VDN**: Value-Decomposition Networks For Cooperative Multi-Agent Learning](https://arxiv.org/abs/1706.05296)
 - [**IQL**: Independent Q-Learning](https://arxiv.org/abs/1511.08779)
 - [**QTRAN**: Learning to Factorize with Transformation for Cooperative Multi-Agent Reinforcement Learning](https://arxiv.org/abs/1905.05408)
 - [**Qatten**: Qatten: A general framework for cooperative multiagent reinforcement learning](https://arxiv.org/abs/2002.03939)
@@ -117,12 +125,14 @@ Actor Critic Methods:
 ## Installation instructions
 
 Install Python packages
+
 ```shell
 # require Anaconda 3 or Miniconda 3
 bash install_dependecies.sh
 ```
 
 Set up StarCraft II (2.4.10) and SMAC:
+
 ```shell
 bash install_sc2.sh
 ```
@@ -130,6 +140,7 @@ bash install_sc2.sh
 This will download SC2.4.10 into the 3rdparty folder and copy the maps necessary to run over.
 
 Set up Google Football:
+
 ```shell
 bash install_gfootball.sh
 ```
@@ -159,8 +170,7 @@ python3 src/main.py --config=qmix_att --env-config=sc2 with env_args.map_name=1o
 python3 src/main.py --config=vdn_gfootball --env-config=gfootball with env_args.map_name=academy_counterattack_hard env_args.num_agents=4
 ```
 
-
-The config files act as defaults for an algorithm or environment. 
+The config files act as defaults for an algorithm or environment.
 
 They are all located in `src/config`.
 `--config` refers to the config files in `src/config/algs`
@@ -185,6 +195,7 @@ bash clean.sh
 ```
 
 # Citation
+
 ```
 @article{hu2021rethinking,
       title={Rethinking the Implementation Tricks and Monotonicity Constraint in Cooperative Multi-Agent Reinforcement Learning}, 
@@ -195,4 +206,3 @@ bash clean.sh
       primaryClass={cs.LG}
 }
 ```
-
