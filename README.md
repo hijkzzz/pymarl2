@@ -132,6 +132,9 @@ Install Python packages
 
 ```shell
 # require Anaconda 3 or Miniconda 3
+conda create -n pymarl python=3.8 -y
+conda activate pymarl
+
 bash install_dependecies.sh
 ```
 
