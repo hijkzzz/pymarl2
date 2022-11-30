@@ -1,0 +1,66 @@
+# --- NDQ specific parameters ---
+
+# use epsilon greedy action selector
+action_selector: "epsilon_greedy"
+epsilon_start: 1.0
+epsilon_finish: 0.05
+epsilon_anneal_time: 50000
+
+runner: "parallel_x"
+batch_size_run: 8
+mac: "cate_broadcast_comm_mac_full"
+
+buffer_size: 5000
+
+# update the target network every {} episodes
+target_update_interval: 200
+
+# use the Q_Learner to train
+agent: "naive_rnn" # Default rnn agent
+agent_output_type: "q"
+learner: "cate_q_learner"
+double_q: True
+mixer: "qmix"
+mixing_embed_dim: 32
+
+
+atom: 51
+vmin: -10
+vmax: 10
+
+# Comm
+comm: True
+comm_embed_dim: 3
+comm_method: "information_bottleneck_full"
+c_beta: 0.1
+comm_beta: 0.0001
+comm_entropy_beta: 0.000001
+gate_loss_beta: 0.00001
+only_downstream: False
+use_IB: True
+is_print: False
+
+is_comm_beta_decay: False
+comm_beta_start_decay: 20000000
+comm_beta_target: 1e-2
+comm_beta_end_decay: 50000000
+
+is_comm_entropy_beta_decay: False
+comm_entropy_beta_start_decay: 20000000
+comm_entropy_beta_target: 1e-4
+comm_entropy_beta_end_decay: 50000000
+
+is_cur_mu: False
+is_rank_cut_mu: False
+cut_mu_thres: 1.
+cut_mu_rank_thres: 80.0
+
+test_is_cut: False
+test_is_cut_prob: False
+test_cut_prob_thres: 0.
+test_cut_prob_list: [0., 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0]
+test_cut_list: [0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5.]
+#test_cut_list: [0., 1., 2., 3., 4., 5., 6., 7., 8., 9., 10.]
+test_is_print_once: False
+
+name: "ndq_parallel"
