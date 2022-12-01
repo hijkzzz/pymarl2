@@ -64,3 +64,9 @@ test_cut_list: [0., 0.5, 1., 1.5, 2., 2.5, 3., 3.5, 4., 4.5, 5.]
 test_is_print_once: False
 
 name: "ndq_parallel"
+
+run: "ndq_run"
+# Visualization
+draw_message_distributions: False
+make_message_distribution_video: False
+loaded_model_ts: 0
