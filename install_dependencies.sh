@@ -7,4 +7,4 @@
 pip install --upgrade pip
 pip install --ignore-installed six
 pip install sacred numpy scipy gym==0.10.8 matplotlib seaborn pyyaml pygame pytest probscale imageio snakeviz tensorboard-logger wandb
-pip install -U git+https://github.com/benellis3/smac.git@smac-v2
+pip install "protobuf<3.21" -U git+https://github.com/oxwhirl/smacv2.git@ranges

@@ -15,6 +15,7 @@ config=$1  # qmix
 tag=$2
 maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}   # MMM2 left out
 units=${8:-10}
+offset=1
 threads=${4:-9} # 2
 td_lambdas=${9:-0.6}
 eps_anneals=${10:-100000}
@@ -24,6 +25,7 @@ times=${7:-3}   # 5
 
 maps=(${maps//,/ })
 units=(${units//,/ })
+enemies=(${enemies//,/ })
 gpus=(${gpus//,/ })
 args=(${args//,/ })
 td_lambdas=(${td_lambdas//,/ })
@@ -53,7 +55,8 @@ for tdlambda in "${td_lambdas[@]}"; do
                 for((i=0;i<times;i++)); do
                     gpu=${gpus[$(($count % ${#gpus[@]}))]}  
                     group="${config}-${map}-${tag}"
-                    ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
+                    enemies=$(($unit + $offset))
+                    ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.n_enemies=$enemies use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
 
                     count=$(($count + 1))     
                     if [ $(($count % $threads)) -eq 0 ]; then

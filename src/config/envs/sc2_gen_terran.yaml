@@ -23,11 +23,14 @@ env_args:
   reward_win: 200
   replay_dir: ""
   replay_prefix: ""
-  conic_fov: True
+  conic_fov: False
+  use_unit_ranges: True
+  min_attack_range: 2
   num_fov_actions: 12
   obs_own_pos: True
   capability_config:
     n_units: 5
+    n_enemies: 5
     team_gen:
       dist_type: "weighted_teams"
       unit_types: 
@@ -45,7 +48,6 @@ env_args:
     start_positions:
       dist_type: "surrounded_and_reflect"
       p: 0.5
-      n_enemies: 5
       map_x: 32
       map_y: 32
     # enemy_mask:
