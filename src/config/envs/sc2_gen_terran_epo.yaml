@@ -29,7 +29,7 @@ env_args:
   min_attack_range: 2
   num_fov_actions: 12
   capability_config:
-    n_units: 5
+    n_units: 6
     n_enemies: 5
     team_gen:
       dist_type: "weighted_teams"

@@ -14,7 +14,7 @@ function onCtrlC () {
 config=$1  # qmix
 tag=$2
 maps=${3:-sc2_gen_protoss_epo,sc2_gen_terran_epo,sc2_gen_zerg_epo}   # MMM2 left out
-units=${8:-5}
+units=${8:-6}
 offset=0
 threads=${4:-24} # 2
 td_lambdas=${9:-0.6}
@@ -58,7 +58,8 @@ for prob in "${prob_obs_enemy[@]}"; do
                     for((i=0;i<times;i++)); do
                         gpu=${gpus[$(($count % ${#gpus[@]}))]}
                         group="${config}-${map}-${tag}"
-                        enemies=$(($unit + $offset))
+#                         enemies=$(($unit + $offset))
+						enemies=5
                         ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.n_enemies=$enemies env_args.prob_obs_enemy=$prob use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}" &
 
                         count=$(($count + 1))
