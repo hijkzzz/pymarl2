@@ -17,9 +17,9 @@ config=$1  # qmix
 tag=$2
 maps=${3:-sc2_gen_protoss,sc2_gen_terran,sc2_gen_zerg}   # MMM2 left out
 units=${8:-10,5,20} # include 5 and 20 units if possible
-threads=${4:-9} # 2
-td_lambdas=${9:-0.6, 0.4, 0.8}
-eps_anneals=${10:-100000,500000,100000}
+threads=${4:-1} # 2
+td_lambdas=${9:-0.4}
+eps_anneals=${10:-100000}
 args=${5:-}    # ""
 times=${7:-3}  # could change to 1 and only run 1 seed for each unit type as well
 
@@ -43,7 +43,7 @@ for tdlambda in "${td_lambdas[@]}"; do
             for unit in "${units[@]}"; do
                 for((i=0;i<times;i++)); do
                     group="${config}-${map}-${tag}"
-                    $debug python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}"
+                    $debug ./run_docker.sh $gpu python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}"
 
                     count=$(($count + 1))
                     if [ $(($count % $threads)) -eq 0 ]; then
