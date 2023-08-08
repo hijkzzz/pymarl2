@@ -1,6 +1,6 @@
 #!/bin/bash
-# debug=
-debug=echo
+debug=
+# debug=echo
 trap 'onCtrlC' INT
 
 function onCtrlC () {
@@ -43,7 +43,7 @@ for tdlambda in "${td_lambdas[@]}"; do
             for unit in "${units[@]}"; do
                 for((i=0;i<times;i++)); do
                     group="${config}-${map}-${tag}"
-                    echo python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}"
+                    $debug python3 src/main.py --config="$config" --env-config="$map" with group="$group" env_args.capability_config.n_units=$unit env_args.capability_config.start_positions.n_enemies=$unit use_wandb=True td_lambda=$tdlambda epsilon_anneal_time=$epsanneal save_model=True "${args[@]}"
 
                     count=$(($count + 1))
                     if [ $(($count % $threads)) -eq 0 ]; then
