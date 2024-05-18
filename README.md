@@ -64,7 +64,7 @@ Using a few of tricks above (bold texts), we enabled QMIX (qmix.yaml) to solve a
 | MMM2         | Super Hard |          98%          |                  **100\%**                  |
 | 3s5z_vs_3s6z | Super Hard |          3%          | **93\%**(hidden_size = 256, qmix_large.yaml) |
 | 27m_vs_30m   | Super Hard |          56%          |                  **100\%**                  |
-| 6h_vs_8z     | Super Hard |          0%          |         **93\%**($\lambda$ = 0.3)         |
+| 6h_vs_8z     | Super Hard |          0%          |         **93\%**($\lambda$ = 0.3, epsilon_anneal_time = 500000)         |
 
 ## Re-Evaluation
 
